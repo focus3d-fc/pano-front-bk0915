@@ -526,7 +526,7 @@ function QueryPerspectiveDetail(viewKey){
 		}
 	}*/
 	var param = new Object();
-	param.userSn = "100007";
+	param.userSn = userSn;
 	param.viewSn = viewKey;
 	param.houseStyleSn = houseStyleSn;
 	
@@ -686,7 +686,7 @@ function return_panorama(projectSn, styleId){
 
 function update_cart(callback){
 	var param = new Object();
-	param.userSn = "100007";
+	param.userSn = userSn;
 	
 	if(Object.keys(element_user_product).length!=0){
 		param.data = JSON.stringify(element_user_product);
