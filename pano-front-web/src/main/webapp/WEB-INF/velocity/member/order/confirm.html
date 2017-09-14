@@ -9,6 +9,12 @@
 .noline{border:none;border-style:none !important;font-size:.26rem;outline:medium;background:none;}
 .img_b0{width:.3rem !important;height:.3rem !important;margin-bottom:.16rem !important;}
 .new_yzm{font-size:.26rem;}
+.one_list{background-color:#fff !important; border-bottom:1px solid #e1e1e1;height:.6rem;}
+.one_list h6{font-size:.24rem;font-weight:bold; line-height:.6rem;padding-left:12px;}
+.eidt{font-size:.22rem;color:#434343;margin-right:12px;line-height:.6rem;}
+.two_list{background-color:#fff !important; border-bottom:1px solid #e1e1e1;height:.6rem;}
+.two_list p{font-size:.24rem;line-height:.6rem;padding-left:12px;}
+.order-items .order-item {margin-top:0 !important;}
 </style>
 <div class="container confirm">
 	<!--列表头-->
@@ -25,32 +31,22 @@
 		<a href="/personal/toaddress?packageSns=$!packageSns" class="right"><i style="font-size:.36rem;" class="iconfont">&#xe6c7;</i></a>
 	</section>
 	<!--订单-->
+	<div class="one_list"><h6 class="fl">$!housePackages.get(0).project.name</h6></div>
+	<div class="clearfix"></div>
+	<div class="two_list"><p> $!housePackages.get(0).style.name $!housePackages.get(0).house.name</p></div>
 	<section class="order-items">
 		#foreach($!housePackage in $!housePackages)
 		<div class="order-item" id="$!housePackage.sn">
-			<div class="title">
-				<span style="font-size:.23rem;">
-					<i style="font-size:.28rem;" class="iconfont">&#xe71f;</i>
-					$!housePackage.name
-				</span>
-				<span class="red"> 等待买家付款 </span>
-			</div>
 			<div class="cont">
-				<a href="#"><img src="$!fs.url($!housePackage.imgSn)"></a>
+				<a href="javascript:void(0)"><img src="$!fs.url($!housePackage.imgSn)"></a>
 				<div class="detail">
-					<a href="#"><p class="detail-tlt">$!housePackage.style.name
-							$!housePackage.house.name</p></a>
-					<p class="col detail-con">$!housePackage.name</p>
-				</div>
-				<div class="price">
+					<a href="#"><p class="detail-tlt">$!housePackage.name</p></a>
 					<p class="red">
-						￥<span class='price_val'>$!housePackage.packagePrice</span>
-					</p>
-					<s class="col">￥$!housePackage.discountPrice</s>
-					<p class="col">
-						×<span>1</span>
-					</p>
+	                    	￥$!housePackage.packagePrice<s class="col"> ￥$!housePackage.discountPrice</s>
+	                    	<small class="fr col">2件</small>
+	                    </p>
 				</div>
+				
 			</div>
 			<div class="row">
 				<p style="font-size:.23rem;">购买数量</p>
@@ -61,6 +57,32 @@
 				</p>
 			</div>
 		</div>
+		 <div class="pro-show" style="display: none;">
+            <div class="left">
+            <a href="pro.html">
+                <img src="../image/image/sofa111.png" alt="">
+                <div class="de">
+                    <p>北欧风格沙发</p>
+                    <p class="col">2100*15*21</p>
+                    <p>黄色 *1</p>
+                </div>
+            </a>
+        </div>
+            <div class="left">
+                <a href="javascript:void(0)">
+                    <img src="../image/image/sofa111.png" alt="">
+                    <div class="de">
+                        <p>北欧风格沙发</p>
+                        <p class="col">2100*15*21</p>
+                        <p>黄色 *1</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="total show">
+            <a href="car.html">点击收起 <i class="iconfont">&#xe60c;</i>
+            </a>
+        </div>
 		#end
 		<div class="yhj-item" style="margin-top:0;">
             <div class="row" >

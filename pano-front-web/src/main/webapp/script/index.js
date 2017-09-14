@@ -6,8 +6,10 @@ $(function(){
 		pagination: '.swiper-pagination',
 	})
 	
-	$(".container").click(function(){
-		//userPicker.hide();
+	$(document).click(function(e){
+		if(e.target.id != "showProjectPicker"){
+			userPicker.hide();
+		}
 	});
 });
 (function($, doc, jquery) {

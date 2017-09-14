@@ -24,7 +24,6 @@ public class PanoProjectHousePackageModel extends PanoProjectHousePackage<PanoPr
 	
 	private PanoProjectStyleModel style;//风格
 	
-
 	public PanoProjectHouseModel getHouse() {
 		return house;
 	}

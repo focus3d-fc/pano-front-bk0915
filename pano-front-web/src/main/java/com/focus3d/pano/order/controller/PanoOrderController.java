@@ -152,8 +152,7 @@ public class PanoOrderController extends AbstractPanoController {
 		List<PanoProjectHousePackageModel> housePackages = new ArrayList<PanoProjectHousePackageModel>();
 		BigDecimal payAmount = BigDecimal.ZERO;
 		for (String packageSn : packageSns) {
-			PanoProjectHousePackageModel housePackage = housePackageService
-					.getDetail(EncryptUtil.decode(packageSn));
+			PanoProjectHousePackageModel housePackage = housePackageService.getDetail(EncryptUtil.decode(packageSn));
 			housePackages.add(housePackage);
 			payAmount = payAmount.add(housePackage.getPackagePrice());
 		}
