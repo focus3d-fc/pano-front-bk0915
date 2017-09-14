@@ -1,0 +1,88 @@
+ #set($layout="layout/layout.html")   
+    <link rel="stylesheet" href="/style/h5static/lib/mui/css/mui.picker.min.css">
+    <link rel="stylesheet" href="/style/h5static/lib/swiper/swiper.min.css">
+    <link rel="stylesheet" href="/style/h5static/css/bass.css">
+    <link rel="stylesheet" href="/style/h5static/css/index.css">
+	<!-- 模态框引入start -->
+ 	<link href="/style/admstatic/lib/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet">
+	<style>
+		.letter-spc{letter-spacing:.08rem;}
+	</style>
+<div class="container index">
+    <!--广告-->
+    <section class="banner">
+        <div class="location">
+            <p href="javascrpt:;" id='showCityPicker3'>
+                <span data-toggle="modal" data-target="#add" style="margin-left:30px">$!showProject.name</span>
+                <i id="showProjectPicker">切换</i>
+                <form action="/index" method="get">
+	                <input type="hidden" id="projectResultValue" name="checkProjectSn" value="$!checkProjectSn">
+                </form>
+            </p>
+            <a style="width: 0.52rem;height: .52rem;top:.03rem;" href="/member/center" class="my">
+            </a>
+        </div>
+        <div class="swiper-container">
+            <div class="swiper-wrapper"><!-- http://   about.html-->
+                #foreach ($!{ad} in $!{adList})
+                <a href="$!{ad.LINK}" class="swiper-slide">
+                    <img id="dtli" src="$!fs.url($!ad.IMG_SN)">
+                </a>
+                #end
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </section>
+    <!--版块-->
+    #foreach ($!{style} in $!{styleList})
+    <section class="content">
+        <div class="title">
+            <img src="$!fs.url($!{style.style_sn})" alt="">
+            #set($styleName="")
+            #set($array = $style.name.split(""))
+            #set($i= 0)
+            #foreach($word in $array)
+            	#if(!$word.equals(""))
+            	#set($styleName = $styleName + $word + "|")
+            	#end
+            #end
+            #set($_len = $styleName.length() - 1)
+            #set($styleName = $styleName.substring(0,$_len))
+            
+            <span class="letter-spc">$styleName</span>
+        </div>
+        <a href="/fp/720?styleId=$!style.id&projectId=$!checkProjectSn">
+        <img id="dtli" src="$!fs.url($!{style.img_sn})" alt="" class="img-rounded img-responsive">
+        </a>
+        <div class="label">
+            <div class="detail fl">
+	             #foreach($lable in $!{style.lableList})
+	            	<span style="color:black;">$lable.name</span>
+	             #end
+            </div>
+            <div class="price fr">
+                <span>$!{style.start_price}~$!{style.end_price}</span>万元
+                
+            </div>
+            <div style="height:.1rem;"></div>
+        </div>
+    </section>
+    #end
+    <div class="slogin">
+       「&nbsp;格&nbsp;物&nbsp;至&nbsp;居&nbsp;」
+
+    </div>
+
+</div>
+
+<span id="projectSelectData" style="display: none;">$!projectSelectData</span>
+<script src="/style/h5static/lib/swiper/swiper.jquery.min.js"></script>
+<!-- 联动引入-->
+<script src="/style/h5static/lib/mui/js/mui.min.js"></script>
+<script src="/style/h5static/lib/mui/js/mui.picker.min.js"></script>
+<script src="/style/h5static/js/city.data-3.js"></script>
+<script src="/style/h5static/js/main.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/style/admstatic/js/jsAddresss.js"></script>
+<script src="/script/index.js"></script>

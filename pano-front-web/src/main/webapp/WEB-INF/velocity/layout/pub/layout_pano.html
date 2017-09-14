@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html class="no-js" lang="">
+    <head>
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="renderer" content="webkit">
+	    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta name="viewport" content="target-densitydpi=device-dpi, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+		<title>$!project.name</title>
+		<meta name="keywords" content="$!pano.keywords" />
+		<meta name="description" content="$!pano.description" />
+		<link rel="shortcut icon" type="image/x-icon" href="$!pano.favicon" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <script src="/script/jquery-1.11.1.min.js"></script>
+        <link rel="stylesheet" href="/style/h5static/css/bass.css">
+    	<link rel="stylesheet" href="/style/h5static/css/index.css">
+    	<link rel="stylesheet" href="/style/h5static/lib/swiper/swiper.min.css">
+        <style>
+            @-ms-viewport { width:device-width;}
+            @media only screen and (min-device-width:800px) { html { overflow:hidden; } }
+            html { height:100%; }
+            body { height:100%; overflow:hidden; margin:0; padding:0; font-family:微软雅黑, Arial, Helvetica, sans-serif; font-size:16px; color:#FFFFFF; background-color:#000000; }
+        	.bd-r2 {width: 95.5px; margin-right: 10px;}
+       		.bd-r1 {width: 37.5px; margin-right: 10px;}
+        </style>
+    </head>
+    <body>
+        $screen_content
+        <input type="hidden" id="panoDomain" value="$!panoDomain"/>
+		<!-- share -->
+		<input type="hidden" id="shareTitle" value="$!pano.shareTitle"/>
+		<input type="hidden" id="desc" value="$!pano.shareDesc"/>
+		<input type="hidden" id="imgUrl" value="$!pano.shareImgUrl"/>
+		<input type="hidden" id="isMobile" value="$!isMobile"/>
+		<script src="/script/pub/pano.js"></script>
+		<script src="/script/pub/jweixin-1.0.0.js"></script>
+		<script src="/script/pub/share.js"></script>
+    	<script src="/style/h5static/js/main.js"></script>
+		<script>
+		var _hmt = _hmt || [];
+		(function() {
+		  var hm = document.createElement("script");
+		  hm.src = "https://hm.baidu.com/hm.js?60e7fa9b340b4e8a811b2c02b93dcf0d";
+		  var s = document.getElementsByTagName("script")[0]; 
+		  s.parentNode.insertBefore(hm, s);
+		})();
+		</script>
+    </body>
+</html>

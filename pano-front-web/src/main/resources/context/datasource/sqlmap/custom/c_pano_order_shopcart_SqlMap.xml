@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="c_pano_order_shopcart">
+  
+  <delete id="deleteShopcartAndDetail">
+	  DELETE  
+		pano_order_shopcart , 
+		pano_order_shopcart_detail 
+	  FROM 
+		pano_order_shopcart 
+	  LEFT JOIN 
+		pano_order_shopcart_detail 
+	  ON pano_order_shopcart.sn = pano_order_shopcart_detail.shopcart_sn
+	  WHERE 
+		pano_order_shopcart.user_sn = #userSn#;
+  </delete>
+  
+  <insert id="insertShopcart">
+	  INSERT INTO pano_order_shopcart
+		(
+		USER_SN,
+		HOUSE_PACKAGE_SN,
+		PURCHASE_NUM,
+		ADDER_SN,
+		ADDER_NAME,
+		ADD_TIME,
+		UPDATER_SN,
+		UPDATER_NAME,
+		UPDATE_TIME
+		)
+		SELECT 
+			#userSn#,
+			_house_pk.sn,
+			1,
+			-1,
+			'system',
+			NOW(),
+			-1,
+			'system',
+			NOW()
+		FROM 
+			pano_project_house_package _house_pk
+		WHERE EXISTS 
+		(
+			SELECT 
+				_house_style.sn
+			FROM 
+				pano_project_house_style _house_style,
+				pano_project_house _hosue,
+				pano_project_style _style
+			WHERE 
+				_house_pk.HOUSE_STYLE_SN = _house_style.sn 
+				AND _hosue.sn = _house_style.HOUSE_SN
+				AND _style.sn = _house_style.STYLE_SN
+			AND _hosue.sn = #houseSn#
+			AND _style.sn = #styleSn#
+			AND _house_style.PROJECT_SN = #projectSn#
+		);
+  </insert>
+  
+  <insert id="insertShopcartDetail">
+		INSERT INTO pano_order_shopcart_detail
+		(
+		SHOPCART_SN,
+		PACKAGE_TYPE_SN,
+		PACKAGE_PRODUCT_SN,
+		ADDER_SN,
+		ADDER_NAME,
+		ADD_TIME,
+		UPDATER_SN,
+		UPDATER_NAME,
+		UPDATE_TIME
+		)
+		SELECT 
+			_order_shopcart.sn,
+			_pk_product.package_type_sn,
+			_pk_product.product_sn,
+			-1,
+			'system',
+			NOW(),
+			-1,
+			'system',
+			NOW()
+		FROM 
+		pano_project_package_product _pk_product, 
+		pano_project_package_type _pk_type, 
+		pano_project_house_package _house_pk,
+		pano_project_house_style _house_style,
+		pano_project_house _hosue,
+		pano_project_style _style,
+		pano_order_shopcart _order_shopcart
+		WHERE _pk_type.house_package_sn = _house_pk.SN
+		AND _house_pk.`HOUSE_STYLE_SN` = _house_style.SN
+		AND _pk_product.package_type_sn = _pk_type.sn
+		AND _order_shopcart.house_package_sn = _pk_type.house_package_sn
+		AND _hosue.sn = _house_style.HOUSE_SN
+		AND _style.sn = _house_style.STYLE_SN
+		AND _hosue.sn = #houseSn#
+		AND _style.sn = #styleSn#
+		AND _house_style.PROJECT_SN = #projectSn#
+		AND _order_shopcart.user_sn = #userSn#
+		GROUP BY package_type_sn;
+  </insert>
+</sqlMap>

@@ -1,0 +1,111 @@
+#set($layout = "layout/member/order/layout_orderall.html")
+    <link rel="stylesheet" href="/style/h5static/css/bass.css">
+    <link rel="stylesheet" href="/style/h5static/css/index.css">
+    <script src="/style/admstatic/js/main.js"></script>
+<style>
+	.one_list{background-color:#fff !important; border-bottom:1px solid #e1e1e1;height:.8rem;line-height:.8rem;}
+	.one_list h6{font-size:.24rem;font-weight:bold; line-height:.8rem;padding-left:12px;}
+	.one_list span{padding-left:12px;}
+	.one_list small{margin-right:12px;}
+	.eidt{font-size:.22rem;color:#434343;margin-right:12px;line-height:.8rem;}
+	.two_list{background-color:#fff !important; border-bottom:1px solid #e1e1e1;height:.8rem;line-height:.8rem;}
+	.two_list small{margin-right:12px;line-height:.8rem;}
+	.two_list p{font-size:.24rem;line-height:.8rem;padding-left:12px;}
+	.order-items .order-item {margin-top:0 !important;background:#fff !important;}
+	.red{color:#ed1b24;}
+	
+</style>
+<div class="container">
+    <!--列表头-->
+    <section class="order-title">
+        <a href="/order/orderspage">全部</a>
+        <a href="/order/orderspage?status=1">待付款</a>
+        <a href="/order/orderspage?status=2">已付款</a>
+    </section>
+    <!--订单-->
+    #if($!orderGroupMap.size() == 0)
+     <section class="order-items">
+    	<p style="margin:auto;width:100%; text-align:center; height:8.7rem;font-size:.3rem;color:#999;">
+    	<img style="width:4rem;height:2.57rem;display:block;margin:0 auto; margin-top:2rem; margin-bottom:.5rem;" src="../images/kong-dd.png">
+    	
+    	<small>您还没有相关定单</small></p>
+     </section>
+    #else
+    #foreach($!orderKey in $!orderGroupMap.keySet())
+    <div class="one_list"><h6 class="fl">$!orderGroupMap.get($!orderKey).project.name</h6></div>
+    <div class="clearfix"></div>
+	#foreach($!order in $!orderGroupMap.get($!orderKey).orders)
+    <div class="one_list"><span class="fl">订单号:$!order.orderNum </span><small class="fr">$!date.format("yyyy-MM-dd hh:mm:ss",$!order.orderTime)</small></div>
+    <div class="clearfix"></div>
+	#foreach($!packageGrop in $!order.packageGropMap.keySet())
+    <div class="two_list"><p class="fl">$!order.packageGropMap.get($!packageGrop).style.name $!order.packageGropMap.get($!packageGrop).house.name</p><small class="fr red">等待买家付款</small></div>
+    <div class="clearfix"></div>
+    <section class="order-items">
+      #foreach($!orderPackage in $!order.packageGropMap.get($!packageGrop).orderPackages)
+      <div class="order-item" onclick="location.href='/order/orderpage?order_sn=$!order.sn'">
+          <div class="cont" >
+              <a href="#"><img src="$!fs.url($!orderPackage.housePackage.imgSn)" ></a>
+              <div class="detail">
+                  <a href="#"><p>$!orderPackage.housePackage.name</p></a>
+                  <p class="red fl">￥$!orderPackage.housePackage.packagePrice <s class="col"> $!orderPackage.housePackage.discountPrice</s></p><p class="fr">$!{orderPackage.totalProductNum}件</p>
+              </div>
+          </div>
+      </div>
+	  <div class="pro-show" style="display: none;">
+	  	 #foreach($!detail in $!orderPackage.details)	
+         <div class="left">
+            <a href="javascript:void(0)">
+                <img src="$!fs.url($!detail.packageProduct.fullImgSn)" alt="">
+                <div class="de">
+                    <p>$!detail.packageProduct.name</p>
+                    <p class="col">$!detail.packageProduct.dimension</p>
+                    <p>$!detail.packageProduct.fabricColor x$!detail.productNum</p>
+                </div>
+            </a>
+        </div>
+        #end
+        #if($!shopcart.details.size() % 2 != 0)
+		<div class="left"></div>
+		#end
+        </div>
+        <div class="total show">
+            <a href="car.html">
+				<a id="closeOrOpen_$!velocityCount" href="javascript:void(0)" style="color:#aaa;"> 点击展开 <i class="iconfont">&#xe612;</i></a>
+            </a>
+        </div>
+      #end
+	#end
+	<div class="total">
+		共 <span>$!order.orderPackages.size()</span>件产品 合计￥<span>$!order.payMoney</span>元（含运费 <span>0.00</span>元 ）
+        </div>
+     <p><a href="#" class="paying">立即付款</a></p>
+	#end
+	#end
+    </section>
+    #end
+</div>
+<input type="hidden" id="status" value="$!status"/>
+<script>
+
+$(function(){
+	var status = parseInt($!("#status").val());
+	$(".order-title").children().removeClass("on");
+	$(".order-title").find("a:eq(" +　status　+　")").addClass("on");
+	
+	//点击展开收起
+	$("a[id^='closeOrOpen_']").click(function(){
+		var status = $(this).attr("status");
+		if(!status || status == 0){
+			$(this).parent().prev().show(200);
+			$(this).text("");
+			$(this).append("点击收起 <i class='iconfont'>&#xe60c;</i>");
+			$(this).attr("status", 1);
+		} else {
+			$(this).parent().prev().hide(200);
+			$(this).text("");
+			$(this).append("点击展开 <i class='iconfont'>&#xe612;</i>");
+			$(this).attr("status", 0);
+		}
+	});
+});
+</script>

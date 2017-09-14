@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
+    <title>商品详情</title>
+    <link rel="stylesheet" href="/style/admstatic/lib/swiper/swiper.min.css">
+    <link rel="stylesheet" href="/style/admstatic/css/bass.css">
+    <link rel="stylesheet" href="/style/admstatic/css/index.css">
+    <script src="/style/admstatic/js/main.js"></script>
+</head>
+<body>
+<div class="container">
+    <!--头-->
+    <header class="header">
+        <a href="#" class="back">
+            <i class="iconfont">&#xe6bc;</i>
+            返回
+        </a>
+        <p class="title">千万间全屋软装定制</p>
+        <a href="#" class="share">
+            <i class="iconfont">&#xe622;</i>
+        </a>
+    </header>
+    <!--图片-->
+    <section class="product">
+        <img src="/style/admstatic/image/image/2.jpg" alt="">
+        #foreach ($!{product} in $!{productList_pro})
+        <p>$!{product.name}</p>
+        <p class="content">品牌：$!{product.brand}</p>
+        <p class="content">规格参数：$!{product.length}*$!{product.wide}*$!{product.height}</p>
+        <p class="content">简介：$!{product.summary}</p>
+        <div class="swiper-container">
+            <div class="swiper-wrapper"><!-- productList_pro -->
+                
+                <div href="/userside/toabout" class="swiper-slide">
+                    <img src="$!fs.url($!{product.fullImgSn})">
+                </div>
+                
+            </div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+        #end
+    </section>
+    <div class="button">
+        确认选择
+    </div>
+</div>
+<script src="/style/admstatic/lib/jQuery/jquery-3.2.1.min.js"></script>
+<script src="/style/admstatic/lib/swiper/swiper.jquery.min.js"></script>
+<script>
+    var mySwiper = new Swiper ('.swiper-container', {
+        //autoplay: 5000,//可选选项，自动滑动
+        loop: true,
+        nextButton: '.swiper-button-next',
+        prevButton: '.swiper-button-prev',
+    })
+</script>
+</body>
+</body>
+</html>

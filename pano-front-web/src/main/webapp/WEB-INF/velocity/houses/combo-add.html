@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>套餐添加</title>
+    <link href="/style/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/style/admstatic/css/admin.css">
+    <script src="/style/admstatic/lib/jQuery/jquery-3.2.1.min.js"></script>
+<script src="/style/admstatic/lib/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript">
+function move(pageNum,pageSize){
+	   //var pageSize=document.getElementById("pageSize").value;
+	   
+	   var url="/packageset/chooseprodt?pageNum="+pageNum;
+	   if(pageSize!=undefined){
+		   url+="&pageSize="+pageSize;
+	   }
+	  var scfy='${ifscfy}';
+	  var scfg='${scStyleSn}';
+	  var scgn='${scFuncSn}';
+	  var proid='${proid}';
+	  if(scfy=='true'){
+		  url+="&ifscfy="+scfy;
+		  url+="&styleSn="+scfg;
+		  url+="&funcSn="+scgn;
+		  url+="&proid="+proid;
+	  }
+	   
+	   location.href=url;
+}
+
+    function suresel(psn){
+    	var selsn=[]; 
+       $("input:checked").each(function(){ 
+    	   var sn=$(this).val();
+    	   if(sn==psn){
+    		   $(this).prop('checked',false);
+    	   }
+    	  if(sn!=psn){
+    		  selsn.push(sn); 
+    		 
+    	  }
+    	  
+    	   }); 
+    	/* for(var i=0;i<selsn.length;i++){
+    		alert(selsn[i]);
+    	} */
+    	//alert(selsn);
+    	var s="";
+       $.ajax({
+   		url:"/packageset/getselectedprodt",	 
+   	    type:"post",
+   	    data:{"selsns":selsn},
+   	    datatype:"json",
+   	    traditional: true,  
+   	    success:function(data){
+   	    	
+   	    	var jsonobj=JSON.parse(data);
+   	    	//alert(jsonobj.updateTime1);
+   	    	$.each(jsonobj,function(i,obj){
+     	    	
+   	    	 s+='<tr>'
+   	    		+'<td>'+(i+1)+'</td>'
+   	    		+'<td>'+obj.name+'</td>'
+   	    		+'<td id="cateid'+(i+1)+'"></td>'
+   	    		+'<td>'
+   	    		+'  <div class="btn-group btn-group-sm" role="group">'
+   	    		+'  <button class="btn btn-info" data-toggle="modal" onclick="setpcate('+(i+1)+')" data-target="#add">设置类别</button>'
+   	    		+'  <a href="#" class="btn btn-danger" '+'onClick="suresel('+obj.sn+')">删除</a>'
+   	    		+'  </div>'
+   	    		+'</td>'
+   	    		+'</tr>';
+   	    	});	
+   	    	
+   	        $("#tbody").html(s);
+   		}
+
+   	  });  
+    	    
+    }
+
+      function setpcate(tid){
+    	  $("#sttid").val(tid);
+    	 // alert(tid);
+      }
+      function suresetpcate(){
+    	  var tid=$("#sttid").val();
+    	var ittpsn=$('#selct option:selected').val();
+    	var ittpname=$('#selct option:selected').text();
+    	 $("#cateid"+tid).text(ittpname);
+      }
+    
+    $(function(){
+    	
+    });
+</script>
+</head>
+<body>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="glyphicon glyphicon-pencil"></span> 套餐设置
+    </div>
+    <div class="panel-body">
+        <div class="form-horizontal">
+            <div class="form-group col-sm-5">
+                <label class="col-sm-4 control-label">楼盘名称</label>
+                <div class="col-sm-6">
+                    <p class="form-control-static">保利项目</p>
+                </div>
+            </div>
+            <div class="form-group col-sm-6">
+                <label class="col-sm-4 control-label">户型</label>
+                <div class="col-sm-8">
+                    <p class="form-control-static">A0002104</p>
+                </div>
+            </div>
+            <div class="form-group col-sm-5">
+                <label class="col-sm-4 control-label">风格</label>
+                <div class="col-sm-8">
+                    <p class="form-control-static">中式</p>
+                </div>
+            </div>
+            <div class="form-group col-sm-6">
+                <label class="col-sm-4 control-label">套餐风格</label>
+                <div class="col-sm-8">
+                    <p class="form-control-static">基础</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="combo-title"><span class="glyphicon glyphicon-th-large"></span>产品筛选：</div>
+    <div class="panel-body">
+        <div class="container">
+            <form class="form-inline"  method="post" action="/packageset/chooseprodt" >
+             <input type="hidden" name="ifscfy" value="true"/>
+                <div class="form-group">
+                    <label class="sr-only"></label>
+                    <input id="selscpid" type="text" class="form-control" placeholder="产品编号" name="proid">
+                </div>
+                
+                <div class="form-group">
+                    <label class="sr-only">分类</label>
+                    <div class="col-sm-8">
+                        <select  name="typeSn" class="form-control">
+                           #foreach( $!protp in $!proTypeList)
+                                    <option value="$!protp.sn">$!protp.name</option>
+                                     #end 
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="sr-only">风格</label>
+                    <div class="col-sm-8">
+                        <select name="styleSn" class="form-control">
+                           #foreach( $!prost in $!proStyleList)
+                                    <option value="$!prost.sn">$!prost.name</option>
+                                     #end 
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="sr-only">功能</label>
+                    <div class="col-sm-8">
+                        <select  name="funcSn" class="form-control">
+                             #foreach( $!profc in $!proFuncList)
+                                    <option value="$!profc.sn">$!profc.name</option>
+                                    #end 
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">搜索</button>
+            </form>
+        </div>
+    </div>
+    <div class="panel-body">
+        <form id="selpro" method="post" action="">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>请选择</th>
+                    <th>产品编码</th>
+                    <th>分类</th>
+                    <th>风格</th>
+                    <th>沙发</th>
+                    <th width="10%">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                  #foreach( $!prodt in $!productInfoList)
+                <tr>
+                    <td>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" value='$!prodt.sn'>
+                            </label>
+                        </div>
+                    </td>
+                   <td>$!prodt.id</td>
+                   <td>$!prodt.typeName</td>
+                   <td>$!prodt.styleName</td>
+                   <td>$!prodt.funcName</td>
+                    <td>
+                        <div class="btn-group btn-group-sm" role="group">
+                            <a href="/packageset/getprodtinpgdetail?prodtsn=$!prodt.sn" class="btn btn-success">查看</a>
+                        </div>
+                    </td>
+                </tr>
+                 #end 
+                </tbody>
+            </table>
+        </form>
+    </div>
+
+    <div class="panel-bodya">
+        <nav class="nav-divider clearfix">
+            <div class="pull-left cof">
+                <button class="btn btn-info" type="submit"  onclick="suresel()">确认</button>
+            </div>
+            <ul class="pagination pull-right">
+            <li><a href="javascript:void(0)" onclick="move(1,$!page.perPageInt)">首页</a></li>
+                <li>
+                    <a href="javascript:void(0)" aria-label="Previous" onclick="move($!page.currentPage - 1,$!page.perPageInt)">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                <li class="active"><a href="javascript:void(0)" onclick="move($!page.currentPage,$!page.perPageInt)">$!page.currentPage</a></li>
+               
+                <li>
+                    <a href="javascript:void(0)" aria-label="Next" onclick="move($!page.currentPage + 1,$!page.perPageInt)">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                 <li>
+                    <a href="javascript:void(0)" aria-label="Last" onclick="move($!page.totalPage,$!page.perPageInt)">
+                        <span aria-hidden="true">尾页</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="combo-title"><span class="glyphicon glyphicon glyphicon-list"></span>产品列表：</div>
+
+    <div class="panel-body">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>名称</th>
+                <th>类别</th>
+                <th width="15%">操作</th>
+            </tr>
+            </thead>
+            <tbody id="tbody">
+            <!-- <tr>
+                <td>1</td>
+                <td>电视柜</td>
+                <td>类别1</td>
+                <td>
+                    <div class="btn-group btn-group-sm" role="group">
+                        <button class="btn btn-info" data-toggle="modal" data-target="#add">设置类别</button>
+                        <a href="#" class="btn btn-danger" onClick="del()">删除</a>
+                    </div>
+                </td>
+            </tr> -->
+            
+            </tbody>
+        </table>
+    </div>
+
+    <div class="panel-body">
+        <form id="addpgrel" class="form-inline" method="post" action="/packageset/addpgrelitem">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-5">
+                    <label class="control-label">套餐定价</label>
+                    <input class="form-control" type="text" class="form-control" placeholder="价格" name="totalPrice">
+                    <input type="hidden" name="" />
+                    <input type="hidden" name="" />
+                    <input type="hidden" name="" />
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-5">
+                <button type="submit" class="btn btn-info" form="addpgrel">确认</button>
+                <button class="btn btn-default" style="margin-left: 60px">取消</button>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<!--增加修改弹窗-->
+<div class="modal fade " id="add" tabindex="-1" role="dialog" aria-labelledby="添加/修改">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content modal-width">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">设置类别</h4>
+            </div>
+            <div class="modal-body clearfix">
+                <form class="form-horizontal" id="formadd">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">类别选择</label>
+                        <div class="col-sm-9">
+                            <select id="selct" class="form-control">
+                                <option>选择已有的类别</option>
+                                 #foreach( $!procate in $!prodtcateInpgList)
+                                    <option value="$!procate.sn">$!procate.name</option>
+                                     #end 
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">类别名称</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" placeholder="输入新类别" name="">
+                        </div>
+                    </div>
+                    <input id="sttid" type="hidden" name="tdid"/>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button id="setpgc" type="button" class="btn btn-primary" onclick="suresetpcate()" data-dismiss="modal" form="formadd">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,52 @@
+#set($layout = "layout/member/order/layout_orderall.html")
+    <link rel="stylesheet" href="/style/admstatic/css/bass.css">
+    <link rel="stylesheet" href="/style/admstatic/css/index.css">
+    <script src="/style/admstatic/js/main.js"></script>
+
+    
+   <style>
+   .paying { padding: .1rem .3rem; border: .01rem solid #000;}
+ 
+   .zfcg-new{margin:0 auto;line-height:.36rem;font-size:.22rem;border-top:1px solid #f6f6f6;}
+   .zfcg-dd{padding:.2rem;}
+   .zfcg-dd p{padding:0 .2rem;}
+   .zfcg-dd a{font-size:.24rem;padding:.12rem .7rem; border-radius:.12rem;}
+   .zfcg-dd a:hover{background:#000000;color:#fff;}
+   .zfcg-new p small{font-size:.22rem; margin-right:.3rem;}
+   .new-red{color:#e51515;}
+   
+   
+   </style>
+   
+   <p style="margin:auto;width:100%; text-align:center;font-size:.3rem;color:#999;">
+    	
+    	<img style="width:4rem;height:2.57rem;display:block;margin:0 auto; margin-top:2rem; margin-bottom:.2rem;" src="/images/zfcg.png">   	
+    	
+    	<small>支付已成功!</small></p>
+    <div class="zfcg-new" style="margin-top:.2rem;">
+	    <div class="zfcg-dd">
+	    <p><small>收货人：$!address.userName </small>  <samll> $!address.mobile</samll></p>
+	    <p>收货地址：$!address.province $!address.city $!address.area $!address.street</p>
+	    </div>
+    </div>
+    <div class="zfcg-new">    
+                <div class="zfcg-dd">
+                <p style="font-size:.3rem;color:#e31515;">总价：¥$!order.payMoney</p>
+               <p style="margin-top:.4rem ;margin-bottom:.3rem;">
+                <a href="/order/orderpage?order_sn=$!order.sn" class="paying">查看订单</a>
+                <a href="http://gwzj.joy-homeplus.com" style="margin-left:.6rem;" class="paying">返回首页</a>
+            </p>
+    
+    </div>
+    
+    
+    
+    
+    </div>
+    
+     <div class="zfcg-new" style="border-top:10px solid #f6f6f6;">
+     <div class="zfcg-dd ">
+     <p>安全提醒:</p>
+     <p class="new-red">付款成功后格物至居不会以付款异常、卡单、系统升级为由联系您。请勿泄露银行卡号、手机验证码，否则会造成钱款损失。谨防电话诈骗！</p>
+    </div>
+     </div>

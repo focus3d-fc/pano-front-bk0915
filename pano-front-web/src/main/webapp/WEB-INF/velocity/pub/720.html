@@ -1,0 +1,217 @@
+#set($layout="layout/pub/layout_pano.html")
+<link rel="stylesheet" href="/script/slick/slick.css" type="text/css" media="screen">
+<link rel="stylesheet" href="/script/slick/slick-theme.css" type="text/css" media="screen">
+	<link rel="stylesheet" href="/script/mui/mui.min.css">
+	<style>
+ body {
+    line-height: 18px !important;
+}
+
+p {
+    color: #fff;
+    font-size: .2rem !important;
+}
+
+.swiper-container2 {
+    background-color: rgba(0, 0, 0, .3) !important;
+}
+
+.bd-r1 {
+    width: 20% !important;
+    margin: 0 auto !important;
+    text-align: center !important;
+}
+
+#tc .swiper-slide p {
+    width: 103% !important;
+    top: 60% !important;
+    
+}
+
+.se720 .nav a p {
+    padding-top: 0 !important;
+    font-size:.2rem !important;
+}
+
+#tc .swiper-container {
+    height: 1rem !important;
+}
+
+#tc {
+    bottom: 1rem !important;
+}
+
+.se720 .nav {
+    height: 1rem !important;
+}
+
+#fj, #hx {
+
+    bottom: 1.7rem!important;
+
+}
+
+#fj .swiper-slide p, #hx .swiper-slide p {
+    background-color: rgba(0, 0, 0, .3) !important;
+    top: -.5rem;
+    position: relative;
+}
+
+#fj .swiper-slide img, #hx .swiper-slide img {
+    border-radius: .1rem !important;
+    margin-top:.05rem;
+    margin-left:.08rem;
+}
+
+#fj .swiper-container, #hx .swiper-container {
+    height: 1.7rem !important;
+    position: relative !important;
+}
+
+#fj .swiper-container a, #hx .swiper-container a {
+    margin-top: .1rem;
+    margin-left: .1rem;
+}   
+
+.hxfj_border{border:2px solid #000;}  
+
+.swiper-slide div{height:1rem;}
+	</style>
+		<div id="mcIcon" style="position: absolute;z-index: 3000;right: 0px;top: 0px;display: none;">
+			<a href="/member/center">
+			<img style="position: absolute;right: 0px;" width="50px;" src="/images/member/1.png"/>
+			</a>
+		</div>
+		<div id="pano" style="width:100%;height:100%;">
+			<!-- 这里是全景显示区域 -->
+		</div>
+		<div id="scrollArea" style="position: absolute;bottom: 100px;left: 100px;width:100%;height: 50px;">
+		</div> 
+			<div class="container se720">
+		    <!--场景-->
+		    <section class="hide">
+		        <p class="location location3" style="display: none;">客厅</p>
+		         <div class="re-box">
+		            <div class="rd-show"  style="display: none;">
+		                <div class="swiper-container swiper4">
+		                    <div class="swiper-wrapper" id="product-swiper-wrapper">
+		                    
+		                    </div>
+		                </div>
+		            </div>
+		
+		        </div>
+		        
+		        <nav id="bottomBar" class="nav" style="display: none;">
+		            <a href="/index?checkProjectSn=$!projectId">
+		                <img src="$!fs.url($!{img_home})" alt="">
+		                <p>首页</p>
+		            </a>
+		            <a href="#" id="hxshow">
+		                <img src="$!fs.url($!{img_house})" alt="">
+		                <p>户型</p>
+		            </a>
+		            <a href="#" id="fjshow">
+		                <img src="$!fs.url($!{img_space})" alt="">
+		                <p>房间</p>
+		            </a>
+		            <a id="toHousePackage" href="javascript:void(0)" >
+		                <img src="$!fs.url($!{img_tc})" alt="">
+		                <p>套餐</p>
+		            </a>
+		        </nav>
+		    </section>
+     		<!--户型弹窗-->
+    			<div id="hx" >
+					<div class="swiper-container swiper3">
+						<div class="swiper-wrapper" id="hx-swiper-wrapper">
+          			  	</div>
+					</div>
+	  		   </div>
+	  		   <!--套餐弹窗-->
+    			<div id="tc" >
+					<div class="swiper-container swiper3">
+						<div class="swiper-wrapper" id="tc-swiper-wrapper">
+          			  	</div>
+					</div>
+	  		   </div>
+		</div>
+		<style>
+			#moreProd img{border-radius:4px;}
+			.prod_hotspot{ 
+	            
+	        }
+	        #moreProd{
+	        	background-color:rgba(0,0,0,0.6) !important;
+	        	background: #000;color:#fff;
+	        	border-radius:.2rem;
+
+	        }
+	        .prod_hotspot p{
+	            color: #FFFFFF !important;		                  
+	        }
+	         .prod_hotspot img{
+	            width:3rem;height:2.25rem;	                  
+	        }	        	   
+			.prod_lr{ margin-top:1.6rem;}
+			#product-swiper-container{
+				margin:0 auto;
+				position:relative;
+				overflow:hidden;
+				direction:ltr;
+				-webkit-backface-visibility:hidden;
+				-moz-backface-visibility:hidden;
+				-ms-backface-visibility:hidden;
+				-o-backface-visibility:hidden;
+				backface-visibility:hidden;
+				/* Fix of Webkit flickering */
+				z-index:1;
+			}
+			.lr_link{
+			    font-family: "Airl";
+			    font-weight: bold;
+			    font-size: .5rem;
+			    color: #fff;
+			    margin: .1rem;
+			    position: relative;
+			    top: 0.6rem;
+			}
+		</style>
+		<div id="moreProd" style="display: none;">
+			<div id="arrow_left" class="fl prod_lr" style="margin-right:.24rem;"><a class="lr_link" href="#">&lt;</a></div>
+			<div class="prod_hotspot">
+					<p id="closeProductDetail" style="float:right;position:relative;top:-.1rem;right:-.2rem;"> 
+						<img style="width:.4rem;height:.4rem;" src="/images/member/gb.png">
+					</p>
+				    <p>产品：<span id="nameP"></span></p>
+				    <p>材质：<span id="materialNameP"></span></p>
+				    <p>颜色：<span id="materialColorP"></span></p>
+				    <p>参数：<span id="parameterP"></span></p>
+				    <p>货号：<span id="modelP"></span></p>
+				    <p>
+				    <div id="product-swiper-container">
+					    <!-- Additional required wrapper -->
+					    <div class="swiper-wrapper">
+					        
+					    </div>
+					</div>
+				    <p style="text-align: right;width: 100%;"><a id="moreDetail" style="color: white;position: relative;
+    right: -.3rem;bottom:-.2rem;">更多选择 &gt;</a></p>
+			</div>
+			<div id="arrow_right" class="fr prod_lr"><a class="lr_link" href="#">&gt</a></div>
+		</div>
+		<!-- 这里styleId是动态数据，模拟从h5首页点击风格打开一个默认的全景 -->
+        <input type="hidden" id="styleId" value="$!styleId"/>
+        <input type="hidden" id="projectId" value="$!projectId"/>
+        <!-- 变量，js里面用到 -->
+        <input type="hidden" id="houseId"/>
+        <input type="hidden" id="panoId"/>
+        <!-- 对接的js文件 -->
+		<script src="/script/pub/pano_perspective.js"></script>
+		<script src="/script/pub/pano_hotspot.js"></script>
+		<script src="/script/member/shopcart/add.js"></script>
+		<script src="/style/h5static/lib/swiper/swiper.jquery.min.js"></script>
+		<script src="/script/mui/mui.min.js"></script>
+		<script src="/script/slick/slick.min.js"></script>
+		<script src="/script/pub/myslick.js"></script>
+		<script src="/script/pub/bottom_bar.js"></script>

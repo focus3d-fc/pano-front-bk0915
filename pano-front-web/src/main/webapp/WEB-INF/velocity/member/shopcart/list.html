@@ -1,0 +1,125 @@
+
+#set($layout = "layout/member/layout_shopcart.html")
+
+<link rel="stylesheet" href="/style/admstatic/css/bass.css">
+<link rel="stylesheet" href="/style/admstatic/css/index.css">
+<style>
+.imgChoose{
+    background: url("/images/choose2.png") 0/cover !important;
+}
+
+.choose{
+    width: .28rem;
+    height: .28rem;
+    background: url("/images/choose.png") 0/cover;
+}
+.one_list{background-color:#fff !important; border-bottom:1px solid #e1e1e1;height:.6rem;}
+.one_list h6{font-size:.24rem;font-weight:bold; line-height:.6rem;padding-left:12px;}
+.eidt{font-size:.22rem;color:#434343;margin-right:12px;line-height:.6rem;}
+.two_list{background-color:#fff !important; border-bottom:1px solid #e1e1e1;height:.6rem;}
+.two_list p{font-size:.24rem;line-height:.6rem;padding-left:12px;}
+.order-items .order-item {margin-top:0 !important;}
+</style>
+<script src="/style/admstatic/js/main.js"></script>
+<div class="container car se720">
+	<div class="one_list"><h6 class="fl">$!project.name</h6><a href="#" class="fr eidt" style="display: none;">编辑</a></div>
+    <div class="clearfix"></div>
+    <section class="order-items">
+	    #foreach($!houseKey in $!houseGroupMap.keySet())
+	    <div class="two_list"><p> $!houseGroupMap.get($!houseKey).style.name $!houseGroupMap.get($!houseKey).house.name</p></div>
+    	#foreach($!shopcart in $!houseGroupMap.get($!houseKey).shopcarts)
+    	<div>
+	        <div class="order-item">
+	        	<!-- 
+	            <div class="title">
+	              <span style="font-size:.24rem;">
+	                  <i class="iconfont" style="font-size:.26rem;">&#xe71f;</i>
+	                  	$!shopcart.housePackage.name
+	              </span>
+	            </div>
+	        	 -->
+	            <div class="cont">
+	                <div class="choose" id="choose_$!velocityCount" price="$!shopcart.housePackage.packagePrice" sn="$!shopcart.housePackage.encryptSn">
+	                </div>
+	                <a href="#"><img src="$!fs.url($!shopcart.housePackage.imgSn)" ></a>
+	                <div class="detail">
+	                    <a href="#"><p>$!shopcart.housePackage.name</p></a>
+	                    <!-- 
+	                    <a href="#"><p>$!shopcart.housePackage.style.name $!shopcart.housePackage.house.name</p></a>
+	                    <p >房型：$!shopcart.housePackage.house.roomNum室$!shopcart.housePackage.house.hallNum厅</p>
+	                     -->
+	                    <p class="red">
+	                    	￥$!shopcart.housePackage.packagePrice<s class="col"> ￥$!shopcart.housePackage.discountPrice</s>
+	                    	<small class="fr col">$!{shopcart.totalProductNum}件</small>
+	                    </p>
+	                </div>
+	            </div>
+	        </div>
+        
+       		<div id="$!shopcart.housePackage.sn" class="pro-show" style="display: none;">
+        			#foreach($!detail in $!shopcart.details)
+					<div class="left">
+						<a id="productType_$!velocityCount" shopcart_sn="$!shopcart.encryptSn" house_style="$!common.encrypt($!shopcart.housePackage.houseStyleSn)" package_type="$!common.encrypt($!detail.packageType.sn)" product_sn="$!common.encrypt($!detail.packageProduct.sn)" href="javascript:void(0)"> 
+							<img style="width:1.2rem;height:.86rem; padding:0;" src="$!fs.url($!detail.packageProduct.fullImgSn)" alt="">
+							<div class="de">
+								<p>$!detail.packageProduct.name</p>
+								<p class="col">$!detail.packageProduct.dimension</p>
+								<p>$!detail.packageProduct.fabricColor x$!detail.productNum</p>
+							</div>
+						</a>
+					</div>
+					#end
+					#if($!shopcart.details.size() % 2 != 0)
+					<div class="left">
+						
+					</div>
+					#end
+			</div>
+			
+			<div class="total show">
+				<a id="closeOrOpen_$!velocityCount" package_sn="$!shopcart.housePackage.sn" href="javascript:void(0)" style="color:#aaa;"> 点击展开 <i class="iconfont">&#xe612;</i></a>
+			</div>
+    	</div>
+		#end
+		#end
+		<div style="height:1.8rem;"></div>
+ 
+        <nav class="nav" style="padding: 0 .1rem;">
+            <a href="/index?checkProjectSn=$!project.encryptSn"  id="tcshow">
+                <img style="width:.65rem;height:.65rem;" src="$!fs.url($!{img_home})" alt="">
+                <p>首页</p>
+            </a>
+            <a href="/fp/720?style_id=$!styleId" id="hxshow">
+                <img style="width:.65rem;height:.65rem;" src="$!fs.url($!{img_house})" alt="">
+                <p>户型</p>
+            </a>
+            <a href="/fp/720?style_id=$!styleId" id="fjshow">
+                <img style="width:.65rem;height:.65rem;" src="$!fs.url($!{img_space})" alt="">
+                <p>房间</p>
+            </a>
+            <a href="/shopcart/list?styleId=$!styleId&checkProjectSn=$!project.encryptSn" class="on">
+                <img style="width:.65rem;height:.65rem;" src="$!fs.url($!{img_tc})" alt="">
+                <p>套餐</p>
+            </a>
+        </nav>
+    </section>
+   
+    <div class="car-total" style="border-top:1px solid #bdbdbd;">
+        #if($!houseGroupMap.size() > 0)
+        <div class="choose" style="margin-left:.2rem;"  id="selectAll">            
+        </div><span style="margin-left:.14rem;font-size:.24rem;">全选</span>
+        #end
+        <p>合计：<span id="totalPrice" class="red">0</span></p>
+        <div class="button">
+        	<form action="/order/confirmpage" method="get">
+        		<input id="packageSns" name="packageSns" type="hidden"/>
+            	<a href="#" id="addToOrder" style="font-size:.2rem;">结算</a>
+        	</form>
+        </div>
+    </div>
+    
+   </div>
+<input type="hidden" id="styleId" value="$!styleId"/>
+<input type="hidden" id="rememberStatus" value='$!rememberStatus'/>
+<script src="/script/pub/pano_perspective.js"></script>
+<script src="/script/member/shopcart/add.js"></script>

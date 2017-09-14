@@ -1,0 +1,220 @@
+#set($layout = "layout/member/layout.html")
+<meta name="format-detection" content="telephone=yes">
+<link rel="stylesheet" href="/style/admstatic/css/bass.css">
+<link rel="stylesheet" href="/style/admstatic/css/index.css">
+<script type="text/javascript"
+	src="/style/admstatic/js/getVerifyCode.js"></script>
+<script src="/style/admstatic/js/main.js"></script>
+<style>
+.w-pre90{width:90%;}
+.noline{border:none;border-style:none !important;font-size:.26rem;outline:medium;background:none;}
+.img_b0{width:.3rem !important;height:.3rem !important;margin-bottom:.16rem !important;}
+.new_yzm{font-size:.26rem;}
+</style>
+<div class="container confirm">
+	<!--列表头-->
+	<section class="address">
+		<img  class="img_b0" src="/images/8.png" alt="" >
+		<div class="w-pre90" style="width:100%;">
+			<p class="clearfix">
+				<span class="fl">收货人：$!order.address.userName</span> <span
+					class="fr">$!order.address.mobile</span>
+			</p>
+			<p>收货地址：$!order.address.province $!order.address.province.city
+				$!order.address.province.area $!order.address.province.street</p>
+		</div>
+		<!-- <a href="/personal/toaddress?packageSns=$!packageSns" class="right"><i class="iconfont">&#xe6c7;</i></a> -->
+	</section>
+	<!--订单-->
+	<section class="order-items" >
+		#foreach($!orderPackage in $!order.orderPackageModels)
+		<div class="order-item" id="$!housePackage.sn">
+			<div class="title">
+				<div style="font-size:.23rem;">
+				
+					<i style="font-size:.28rem;" class="iconfont">&#xe71f;</i> $!orderPackage.housePackageModel.name
+				</div>
+			</div>
+			<div class="cont" style="background:#fff;">
+				<a href="#"><img src="$!fs.url($!orderPackage.housePackageModel.imgSn)"></a>
+				<div class="detail">
+					<a href="#"><p class="detail-tlt">$!orderPackage.housePackageModel.style.name
+							$!orderPackage.housePackageModel.house.name</p></a>
+					<p class="col detail-con">$!orderPackage.housePackageModel.name</p>
+				</div>
+				<div class="price">
+					<p class="red">
+						￥<span class='price_val'>$!orderPackage.housePackageModel.packagePrice</span>
+					</p>
+					<s class="col">￥$!orderPackage.housePackageModel.discountPrice</s>
+					<p class="col">
+						×<span>$!orderPackage.purchaseNum</span>
+					</p>
+				</div>
+			</div>
+			<div class="pro-show" style="display: none;">
+        			#foreach($!detail in $!orderPackage.orderPackageDetails)
+					<div class="left">
+						<a href="/perspective/QueryPerspective"> 
+							<img src="$!fs.url($!detail.packageProduct.fullImgSn)" alt="">
+							<div class="de">
+								<p>$!detail.packageProduct.name</p>
+								<p class="col">$!{detail.packageProduct.length}*$!{detail.packageProduct.wide}*$!detail.packageProduct.height</p>
+								<p>$!detail.packageProduct.fabricColor</p>
+							</div>
+						</a>
+					</div>
+					#end
+					#if($!orderPackage.orderPackageDetails.size() % 2 != 0)
+					<div class="left">
+						
+					</div>
+					#end
+			</div>
+			<div class="totalshow" style="text-align:center;background:#fff; border-top:1px solid #f6f6f6;line-height:.5rem;color:#d0d0d0;">
+				<a id="closeOrOpen_$!velocityCount" href="#"> 点击展开 <i class="iconfont">&#xe612;</i></a>
+			</div>
+
+		</div>
+		#end
+	</section>
+	<div class="bulkhead" style="background-color:white;;margin:0 -8px"></div>
+	<div style="padding:5px 10px;border-top:1px solid #f6f6f6;background:#fff;">
+#ifnotnull($!order.couponItem)
+		<div class="yhj-item">
+            <div class="row" >
+                <p>优惠码：</p>
+                <p class="couponCodeSquares" style="padding:0 10px">
+                    <span class="square">$!order.couponItem.codeNum.charAt(0)</span>
+                    <span class="square">$!order.couponItem.codeNum.charAt(1)</span>
+                    <span class="square">$!order.couponItem.codeNum.charAt(2)</span>
+                    <span class="square">$!order.couponItem.codeNum.charAt(3)</span>
+                    <span class="square">$!order.couponItem.codeNum.charAt(4)</span>
+                    <span class="square">$!order.couponItem.codeNum.charAt(5)</span>
+                </p>
+            </div>
+          </div>
+         #end
+          <div>
+          <div style="color:red;line-height:.4rem;"> 
+          		#if($!order.leftPay==0)
+	          		#if($!order.status==1)
+	          			<div style="height:.4rem;line-height:.4rem;">商品金额：未支付</div>
+	          		 #end 
+	          		<!--  #if($!order.status==1)
+	          			<div>商品金额：已支付</div>
+	          		 #end  -->
+          		 #end 
+          		 #if($!order.leftPay==1)
+          			#if($!order.status==1) 
+          		 		<div><div style="border-left:3px solid red;display:inline-block;height:12px;margin-right:3px;margin-left:-8px"></div>商品定金：未支付</div>
+          		 	#end 
+          		 	<!-- #if($!order.status==2 and $!order.sonOrder.status==2) 
+          		 		<div>商品金额：已支付</div>
+          		 	#end  -->
+          		 	#if($!order.status==2 and $!order.sonOrder.status==1) 
+          		 		<div>商品尾款： 未支付</div>
+          		 	#end
+          		 #end 
+          	</div>
+          <div style="line-height:40px;color:grey;">
+          	优惠券：<span style="float:right;">-￥$!order.discountMoney</span>
+          </div>
+          		#if($!order.leftPay==0)
+	          		<div style="line-height:20px">实付金额：<span style="float:right;">￥$!order.payMoney</span></div>
+          		 #end 
+          		 #if($!order.leftPay==1)
+          		 	<div style="line-height:20px;color:grey;">预付2成：<span style="float:right;">￥$!dueStage1Money</span></div>
+          		 	<div style="line-height:20px">实付定金：<span style="float:right;">￥$!order.payMoney</span></div>
+          		 	<div style="line-height:20px">商品尾款：<span style="float:right;color:red;">￥$!order.leftMoney</span></div>
+          		 #end 
+          </div>
+          
+            </div>
+            <div style="text-align:center;font-size:15px;color:grey;background:#fff; height:30px;line-height:30px; width:100%; padding-top:.1rem; border-top:1px solid #f6f6f6;"><img src="../images/40.png" style="height:.5rem;width:.5rem;margin-right:.1rem;" /><a id="contactUs" style="vertical-align:middle;">联系我们</a></div>
+          <div class="bulkhead" style="height:10px;background-color:white;;margin:0 -8px"></div>
+          <div style="height:1.6rem;padding:.2rem 0; background:#fff;border-top:1px solid #f6f6f6;padding:.2rem 8px;">
+	            <div style="line-height:24px;color:grey;">
+	           		订单编号：$!order.orderNum
+	            </div>
+	            <div style="line-height:24px;color:grey;">
+	           		创建时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.orderTime)
+	            </div>
+            <div class="bulkhead" style="height:10px;background-color:white;margin:0 -8px"></div>
+            <div style="height:25px;">
+           #if($!order.leftPay==0)
+	          		#if($!order.status==1)
+	          			<a class="tj"  style="float:right;background-color:black;color:white;padding:3px 8px;border-radius:5px;display:inline-block;" onclick="location.href='/order/topaypage?order_sn=$!order.sn'">立即支付</a>
+	          		 #end 
+	          		 #if($!order.status==2)
+	          			<span style="float:right;background-color:black;color:white;padding:3px 8px;border-radius:5px;display:inline-block;">已支付</span>
+	          		 #end 
+          		 #end 
+          		 #if($!order.leftPay==1)
+          			#if($!order.status==1) 
+          		 		<a class="tj" style="float:right;background-color:black;color:white;padding:3px 8px;border-radius:5px;display:inline-block;" onclick="location.href='/order/topaypage?order_sn=$!order.sn'">立即支付</a>
+          		 	#end 
+          		 	#if($!order.status==2 and $!order.sonOrder.status==2) 
+          		 	<span style="float:right;">已支付</span>
+          		 	#end 
+          		 	#if($!order.status==2 and $!order.sonOrder.status==1) 
+          		 		<span style="margin-top:5px;display:inline-block;">等待买家补齐尾款</span> <a class="tj" style="float:right;background-color:black;color:white;padding:3px 8px;border-radius:5px;display:inline-block;" onclick="location.href='/order/topaypage?order_sn=$!order.sonOrder.sn'">立即补款</a>
+          		 	#end
+          		 #end 
+       </div>
+
+</div>
+</div>
+<input type="hidden" id="phone" value="400-902-0990"/>
+<script>
+
+	$(function(){
+		$("#contactUs").click(function(){
+			window.open("tel:" + $("#phone").val(), "_self");
+			window.close();
+		});
+	});
+
+//    点击确认订单消失
+    $(function(){
+        $(".wrap1").click(function(){
+            $(".wrap1").hide();
+            return false;
+        })
+        $("#confirm").click(function(){
+            return false;
+        })
+        
+        
+        $("a[id^='closeOrOpen_']").click(function(){
+		var status = $(this).attr("status");
+		if(!status || status == 0){
+			$(this).parent().prev().show(200);
+			$(this).text("");
+			$(this).append("点击收起 <i class='iconfont'>&#xe60c;</i>");
+			$(this).attr("status", 1);
+		} else {
+			$(this).parent().prev().hide(200);
+			$(this).text("");
+			$(this).append("点击展开 <i class='iconfont'>&#xe612;</i>");
+			$(this).attr("status", 0);
+		}
+	});
+        /* $('[name=couponCode]').input(function(event){ 
+        	if(value.length>6)
+        		value=value.slice(0,5)
+        	$($('[name=couponCode]').nextAll('span.square')).each(function(index,ele){
+        			$(ele).text($('[name=couponCode]').val().charAt(index))        		
+        	})
+        	
+        	if($('[name=couponCode]').val().length==6){
+        		$('[name=couponCode]').blur();
+        	}
+        	
+        	
+        	
+        }
+        ); */
+    })
+   
+</script>

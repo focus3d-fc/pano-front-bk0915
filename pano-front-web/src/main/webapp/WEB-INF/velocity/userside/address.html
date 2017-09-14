@@ -1,0 +1,57 @@
+#set($layout = "layout/member/layout_address.html")
+<link rel="stylesheet" href="/style/h5static/css/bass.css">
+<link rel="stylesheet" href="/style/h5static/css/index.css">
+<script src="/style/h5static/js/main.js"></script>
+
+<script>
+	$(function(){
+		$(".addr-item").click(function(){
+			window.location.href = "/personal/setDef?SN=" + $(this).attr("sn") + "&packageSns=" + $("#packageSns").val();
+		});
+	});
+</script>
+<style>
+.w-per90{width:90%;}
+.col_new2 {padding-left:0px !important;}
+.addr .addr-item p {
+    margin: .1rem 0 !important;
+}
+
+.button {
+
+    height: .8rem;
+    line-height:.8rem;
+    font-size:.24rem;
+}
+
+
+
+</style>
+
+	<div class="container addr">
+		<input type="hidden" id="packageSns" value="$!packageSns"/>
+		<a href="/personal/toaddaddress?packageSns=$!packageSns" class="button bcdz"> 添加地址 </a>
+		<div style="height: .9rem"></div>
+		<!--图片-->
+		<section class="addr-section">
+			#foreach ($!address in $!addressList) 
+			<div class="addr-item #if($!address.defaultFirst == 0) col col_new2 #end" sn="$!address.sn">
+				<img src="#if($!address.defaultFirst == 1) /style/h5static/image/img/27.png #else /style/h5static/image/img/27_blank.png #end" alt=""> 
+				<div class="w-per90"  style="font-size:.22rem;">
+					<p class="clearfix">
+						<span class="fl">$!address.userName
+						</span> <span class="fr">$!address.mobile</span>
+					</p>
+					<p>收货地址：$!address.province $!address.city $!address.area $!address.street</p>
+					<p class="clearfix">
+						<a href="/personal/delSite?SN=$!address.sn" class="fr">删除</a> <a
+							href="/personal/toupAddress?SN=$!address.sn" class="fr">编辑</a>
+					</p>
+				</div>
+			</div>
+			#end
+			
+		</section>
+		
+
+	</div>

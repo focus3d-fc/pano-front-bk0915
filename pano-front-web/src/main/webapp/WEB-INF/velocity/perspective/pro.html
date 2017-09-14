@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, user-scalable=no, initial-scale=1.0">
+<title>商品详情</title>
+<link rel="stylesheet" href="/style/h5static/lib/swiper/swiper.min.css">
+<link rel="stylesheet" href="/style/h5static/css/bass.css">
+<link rel="stylesheet" href="/style/h5static/css/index.css">
+<script src="/style/h5static/js/main.js"></script>
+
+<style>
+.paying {
+	padding: .1rem .3rem; /*border: .01rem solid #fff;*/
+	border-radius: .05rem;
+	background-color: #000;
+	color: #fff;
+}
+
+.paid {
+	padding: .1rem .3rem;
+	border: .01rem solid #000;
+	border-radius: .05rem;
+	background-color: #fff;
+	color: #000;
+}
+
+.pro_btn a {
+	font-size: .2rem;
+}
+</style>
+
+</head>
+<body>
+	<div class="container">
+		<!--图片-->
+		<section class="product">
+			<div style="position: absolute; top: .2rem;z-index:1000;width:100%">
+				<p class="fl" id="space_name"></p>
+				
+				<div id="mcIcon" style="float:right;margin-right:.1rem">
+					<a href="/member/center"> 
+						<img style="width:.65rem;height:.65rem" src="/images/member/1.png">
+					</a>
+				</div>
+			</div>
+			
+			<div class="toushi">
+				<div id="WebGl-OutPut" style="width: 100%"></div>
+
+				<div class="control" id="exchange_view">
+					<img src="/style/h5static/image/img/44.png" alt="">
+					<p>切换视角</p>
+				</div>
+			</div>
+
+			<div>
+				<p class="fl" id="name"></p>
+				<p class="fr pro_btn">
+					<a href="#" class="paying" id="return_panorama"><返回全景</a> <a
+						href="#" class="paid" id="next_space">下个空间></a>
+				</p>
+			</div>
+			<div class="clearfix" />
+			<p class="content" id="venderName"></p>
+			<p class="content" id="dimension"></p>
+			<p class="content" id="summary"></p>
+			<img id="longImgSn"/>
+			<!-- div class="swiper-container">
+				<div class="swiper-wrapper"></div>
+				<div class="swiper-button-prev"></div>
+				<div class="swiper-button-next"></div>
+			</div-->
+
+		</section>
+		<div class="button" id="Confirm_Select">确认选择</div>
+	</div>
+	<script src="/style/h5static/lib/jQuery/jquery-3.2.1.min.js"></script>
+	<script src="/style/h5static/lib/swiper/swiper.jquery.min.js"></script>
+
+	<script type="text/javascript" src="/script/libs/three.js"></script>
+	<script type="text/javascript" src="/script/libs/CanvasRenderer.js"></script>
+	<script type="text/javascript" src="/script/libs/three.js"></script>
+	<script type="text/javascript" src="/script/libs/Projector.js"></script>
+	<script type="text/javascript" src="/script/libs/CanvasRenderer.js"></script>
+
+	<script type="text/javascript" src="/script/perspective/H5WebGL.js"></script>
+
+	<script>
+		var image_array;
+
+		$(function() {
+
+			houseStyleSn = '$!{houseStyleSn}';
+			spaceSn = '$!{spaceSn}';
+			userSn = '$!{userSn}';
+			productView = $.parseJSON('$!productView');
+			var styleId = $("#styleId").val();
+			var projectSn = $("#projectSn").val();
+			var packageTypeSn = $("#packageTypeSn").val();
+			$("#exchange_view").hide();
+
+			$("#return_panorama").on("click", function() {
+				//return_panorama方法体中添加返回全景代码
+				return_panorama(projectSn, styleId);
+			})
+
+			$("#next_space").hide();
+
+			WebGL_Container = $("#WebGl-OutPut");
+			$("#Confirm_Select")
+					.on(
+							"click",
+							function() {
+								update_cart(function() {
+									//这里添加返回至套餐的代码
+									window.location.href = "/shopcart/list?packageTypeSn="
+											+ packageTypeSn
+											+ "&houseStyleSn="
+											+ houseStyleSn
+											+ "&checkProjectSn="
+											+ projectSn;
+								});
+							});
+			var rate = 4 / 3;
+			var width = WebGL_Container.width();
+			var height = parseInt(width / rate);
+			WebGL_Container.height(height);
+
+			WebGL.init(width, height);
+			scaler = width / 800.0;
+			var value = '$!viewlist';
+			var _list = $.parseJSON('$!viewlist');
+			//var productInfo = $.parseJSON('$!product');
+
+			CaculateSpace(_list);
+			//ProdunctInfoFill(productInfo);
+		});
+	</script>
+	<input type="hidden" id="packageTypeSn" value="$!packageTypeSn" />
+	<input type="hidden" id="houseStyleSn" value="$!houseStyleSn" />
+	<input type="hidden" id="styleId" value="$!styleId" />
+	<input type="hidden" id="projectSn" value="$!projectSn" />
+</body>
+</html>

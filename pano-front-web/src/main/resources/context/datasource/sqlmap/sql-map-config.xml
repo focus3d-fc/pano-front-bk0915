@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN"
+  "file:/home/sql-map-config.dtd">
+<sqlMapConfig>
+	<settings cacheModelsEnabled="false" enhancementEnabled="true"
+		lazyLoadingEnabled="true" errorTracingEnabled="true" maxRequests="512"
+		maxSessions="256" maxTransactions="256" useStatementNamespaces="true"
+		defaultStatementTimeout="60" statementCachingEnabled="true"
+		classInfoCacheEnabled="true" />
+
+	<sqlMap resource="context/datasource/sqlmap/pano_bm_user_SqlMap.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_bm_login_SqlMap.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_validate_SqlMap.xml" />
+
+	<sqlMap resource="context/datasource/sqlmap/pano_bm_role_SqlMap.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_bm_resource_SqlMap.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_bm_role_resource_SqlMap.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_bm_user_role_SqlMap.xml" />
+
+	<sqlMap resource="context/datasource/sqlmap/pano_product.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_user_SqlMap.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_product_func.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_product_type.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_project_package.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_project.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_project_house.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_ad.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_project_space.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_bm_longin.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_usersSide_SqlMap.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_bm_role.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_project_style.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_project_label.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_packageset.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_project_house_style.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_mem_user.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_user_receive_address.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_project_package_type.xml" />
+	<sqlMap resource="context/datasource/sqlmap/OrderRelevance.xml" />
+	<sqlMap resource="context/datasource/sqlmap/OrderAdmin.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_project_space_SqlMap.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_perspective_element_product_SqlMap.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_perspective_element_SqlMap.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_perspective_layer_SqlMap.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_perspective_view_SqlMap.xml" />
+	<sqlMap resource="context/datasource/sqlmap/ProductRelevance.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_mem_login_SqlMap.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_mem_user_SqlMap.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_user_receive_address_SqlMap.xml" />
+	
+	<sqlMap resource="context/datasource/sqlmap/pano_product_SqlMap.xml"/>
+	<sqlMap resource="context/datasource/sqlmap/pano_project_house_package_SqlMap.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_project_package_SqlMap.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_project_package_type_SqlMap.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_project_package_product_SqlMap.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_order_shopcart_SqlMap.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_order_shopcart_detail_SqlMap.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_order_package_detail_SqlMap.xml" />
+	
+	<sqlMap resource="context/datasource/sqlmap/pano_project_house_style_SqlMap.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_project_house_SqlMap.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_project_style_SqlMap.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_project_base_style_SqlMap.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_project_SqlMap.xml" />
+	
+	<sqlMap resource="context/datasource/sqlmap/pano_order_coupon_SqlMap.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_order_coupon_item_SqlMap.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_order_package_SqlMap.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_order_SqlMap.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_order_trans_SqlMap.xml" />
+	<sqlMap resource="context/datasource/sqlmap/pano_user_bankcard_SqlMap.xml" />
+	<sqlMap resource="context/datasource/sqlmap/custom/c_pano_order_SqlMap.xml" />
+	<sqlMap resource="context/datasource/sqlmap/custom/c_pano_project_house_package.xml" />
+	<sqlMap resource="context/datasource/sqlmap/custom/c_pano_order_shopcart_SqlMap.xml" />
+</sqlMapConfig>

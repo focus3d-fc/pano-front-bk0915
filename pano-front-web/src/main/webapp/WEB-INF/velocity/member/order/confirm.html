@@ -1,0 +1,425 @@
+#set($layout = "layout/member/order/layout_confirm.html")
+<link rel="stylesheet" href="/style/admstatic/css/bass.css">
+<link rel="stylesheet" href="/style/admstatic/css/index.css">
+<script type="text/javascript"
+	src="/style/admstatic/js/getVerifyCode.js"></script>
+<script src="/style/admstatic/js/main.js"></script>
+<style>
+.w-pre90{width:90%;}
+.noline{border:none;border-style:none !important;font-size:.26rem;outline:medium;background:none;}
+.img_b0{width:.3rem !important;height:.3rem !important;margin-bottom:.16rem !important;}
+.new_yzm{font-size:.26rem;}
+</style>
+<div class="container confirm">
+	<!--列表头-->
+	<section class="address add-img" >
+		<img  class="img_b0"  src="/images/8.png" alt="" >
+		<div class="w-pre90" style="width:100%;">
+			<p class="clearfix">
+				<span class="fl">收货人：$!defaultAddress.userName</span> <span
+					class="fr">$!defaultAddress.mobile</span>
+			</p>
+			<p>收货地址：$!defaultAddress.province $!defaultAddress.province.city
+				$!defaultAddress.province.area $!defaultAddress.province.street</p>
+		</div>
+		<a href="/personal/toaddress?packageSns=$!packageSns" class="right"><i style="font-size:.36rem;" class="iconfont">&#xe6c7;</i></a>
+	</section>
+	<!--订单-->
+	<section class="order-items">
+		#foreach($!housePackage in $!housePackages)
+		<div class="order-item" id="$!housePackage.sn">
+			<div class="title">
+				<span style="font-size:.23rem;">
+					<i style="font-size:.28rem;" class="iconfont">&#xe71f;</i>
+					$!housePackage.name
+				</span>
+				<span class="red"> 等待买家付款 </span>
+			</div>
+			<div class="cont">
+				<a href="#"><img src="$!fs.url($!housePackage.imgSn)"></a>
+				<div class="detail">
+					<a href="#"><p class="detail-tlt">$!housePackage.style.name
+							$!housePackage.house.name</p></a>
+					<p class="col detail-con">$!housePackage.name</p>
+				</div>
+				<div class="price">
+					<p class="red">
+						￥<span class='price_val'>$!housePackage.packagePrice</span>
+					</p>
+					<s class="col">￥$!housePackage.discountPrice</s>
+					<p class="col">
+						×<span>1</span>
+					</p>
+				</div>
+			</div>
+			<div class="row">
+				<p style="font-size:.23rem;">购买数量</p>
+				<p >
+					<span class="square"  onclick="subCount('$!housePackage.sn')" style="font-size:.28rem;">-</span>
+					<span class="buyCount" style="padding:0 .2rem;"> 1 </span> <span class="square"
+						onclick="addCount('$!housePackage.sn')" style="font-size:.26rem;">+</span>
+				</p>
+			</div>
+		</div>
+		#end
+		<div class="yhj-item" style="margin-top:0;">
+            <div class="row" >
+                <p style="font-size:.23rem;">请输入兑换优惠码：</p>
+                
+                <p class="couponCodeSquares" 
+                				onclick="$('[name=couponCode]').focus();">
+				<input type="tel"  maxLength="6" oninput="couponcode_input()"
+					style=" outline: medium; color: transparent; border: none;width:60px;"
+					name="couponCode" />
+                    <span class="square"></span>
+                    <span class="square"></span>
+                    <span class="square"></span>
+                    <span class="square"></span>
+                    <span class="square"></span>
+                    <span class="square"></span>
+                </p>
+                
+            </div>
+            <div class="row noboder">
+                <p style="font-size:.23rem;">付款方式：</p>
+            </div>
+            <p>
+                <a href="#" class="paying paybtn" onclick="choosePayScheme('FULL',this)">付全款
+                    <span class="red">95折</span>
+                </a>
+                <a href="#" class="paid paybtn" onclick="choosePayScheme('STAGES',this)">预付2成</a>
+            </p>
+            
+            <!--new code 20170825 begin-->
+            <div class="stages" style="display:none;">
+	            <div class="row red top_line" >
+	                <p>阶段1：定金</p><p>优惠券抵扣：¥<span class="couponAmount"></span></p><p>小计：¥<span class="stage1Amount"></span></p>
+	            </div>
+	            <div class="row">
+	                <p>阶段2：尾款</p><p>小计：¥<span class="stage2Amount"></span></p>
+	            </div>
+	            
+            </div>
+            <!--new code 20170825 end-->
+            <div class="new-row2">
+                <p style="font-size:.23rem;">
+                    <img id="readContractTick" src="/images/choose4.png" style="width:.4rem;height:.4rem;" alt="">
+                   <!-- <img src="/images/choose3.png" style="width:.4rem;height:.4rem;" alt="">-->
+                    <a href="javascript:void(0)" onclick="$('.wrap').show();" >我已阅读并同意
+                        <span class="red">免责声明与合同条款</span>
+                    </a>
+                </p>
+            </div>
+            
+            <div class="new-tjdd">
+            <p class="fl tx-center">
+                共 <span class="totalCount"></span>件产品 <span class="payAmountDesc">合计</span>￥<span class="red"></span>元</p>
+                <a id="submitOrder" class="tj fr">
+                    提交订单
+                </a>
+            </div>
+        </div>
+
+	</section>
+
+</div>
+<!--合同条款弹窗-->
+#parse("/member/order/contract.html")
+
+<!--提交订单弹窗-->
+<div class="wrap1">
+	<div id="confirm">
+		<form>
+			<div class="confirm-title">
+				输入下列验证码意味着您确认合同内容并且签署此合同
+				<div class="confirm-close">
+					<i class="iconfont">&#xe70c;</i>
+				</div>
+			</div>
+			<div class="row">
+				<i class=" iconfont">&#xe61b;</i> <input class="noline" type="tel"
+					placeholder="请输入手机号" id="j_phone" name="mobile_phone">
+			</div>
+			<div class="row">
+				<i class=" iconfont">&#xe66f;</i> <input class="noline" type="text"
+					placeholder="验证码" name="verifycode"> <span
+					id="j_getVerifyCode" class="new_yzm">获取验证码</span>
+			</div>
+			<button type="button" onclick="create_order()">立即验证</button>
+		</form>
+	</div>
+</div>
+<input type="hidden" id="regMobile" value="$!regMobile"/>
+<!--注册验证-->
+<script>
+var payScheme='FULL'; // FULL全款 STAGES分期
+var payAmount = 0;
+var couponAmount = 0;
+var addressSn = '$!defaultAddress.sn';
+var couponCode = null;
+var orderparam_package_sns = new Array();
+var orderparam_package_counts =new Array();
+
+var packages = new Object();
+
+
+#foreach($!housePackage in $!housePackages)
+packages['$!housePackage.sn'] = new Object();
+	packages['$!housePackage.sn'].price=$!housePackage.packagePrice
+	packages['$!housePackage.sn'].count=1
+#end
+
+calculate();
+
+
+function calculate(){
+	payAmount =0;
+	var totalCount = 0;
+	var i = 0;
+	for(var proname in packages){
+        if (packages.hasOwnProperty(proname)) { //filter,只输出man的私有属性
+        	payAmount = payAmount+(packages[proname].price*packages[proname].count)
+        	totalCount = totalCount+ packages[proname].count;
+        	//顺便拼接下单时的参数
+        	orderparam_package_sns[i] = proname;
+        	orderparam_package_counts[i] = packages[proname].count;
+        	i++;
+        };
+    }
+	//下单参数某位补0
+	orderparam_package_sns[i] = 0;
+	orderparam_package_counts[i] = 0;
+	
+	payAmount = payAmount - couponAmount;
+	if(payScheme == 'FULL'){
+		payAmount = parseFloat((payAmount*0.95).toFixed(2));
+		$('.new-tjdd .red').text(payAmount)
+		$('.new-tjdd .totalCount').text(totalCount)
+		$('.payAmountDesc').text('合计')
+	}else{
+		var stage1Amount = payAmount*0.2;
+		stage1Amount= parseFloat(stage1Amount.toFixed(2))
+		var stage2Amount = payAmount - stage1Amount;
+		payAmount=stage1Amount;
+		$('.new-tjdd .red').text(payAmount)
+		$('.new-tjdd .totalCount').text(totalCount)
+		$('.couponAmount').text(couponAmount)
+		$('.stage1Amount').text(stage1Amount)
+		$('.stage2Amount').text(stage2Amount)
+		$('.payAmountDesc').text('定金')
+		
+		
+	}
+}
+
+function choosePayScheme(paySchemeParam,ele){
+	payScheme = paySchemeParam;
+	$('.paybtn').removeClass('paying');
+	$('.paybtn').addClass('paid');
+	$(ele).addClass('paying');
+	$(ele).removeClass('paid');
+	if(payScheme== 'FULL'){
+		$('.stages').hide();
+	}else{
+		$('.stages').show();
+	}
+	
+	calculate();
+}
+    //获取手机验证码-登录
+    $("#j_getVerifyCode").on("click",getVerifyCode({
+        callBack: function (){//按钮点击后的回调函数，-----必须-----
+            //在这里你还是可以对你的按钮进行操作
+        	//TODO  验证手机号是否存在
+            var phoneexist = 0;
+       var mobile_phone = $('div#confirm [name=mobile_phone]').val();
+            $.ajax({
+                type: 'POST',
+                async: false,
+                data: {phone:mobile_phone},
+                url: '/order/phoneexist',
+                dataType: 'json',
+                success: function (data) {
+                	if(data.status != 0){
+                		alert(data.statusMsg)
+                		return;
+                	}else{
+                		phoneexist = data.exist;
+                	}
+                },
+                error:function(xhr, msg, reasonString){
+                	alert("请求失败，请稍后");
+                }
+                })
+                if(phoneexist == 0){
+                	alert("手机号不存在");
+                	return false;
+                }
+            $.ajax({
+            type: 'POST',
+            async: false,
+            data: {mobilePhone:mobile_phone},
+            url: '/sms/send',
+            dataType: 'json',
+            success: function (data) {
+            	if(data.status != 0){
+            		alert("验证码发送失败")
+            		return;
+            	}
+            },
+            error:function(xhr, msg, reasonString){
+            	alert("验证码发送失败");
+            }
+            })
+        },
+        time: 60,//定时时间，以秒为单位，默认60秒
+        getCurrentTime: function (time){//获取倒计时当前时间
+        },
+        isPhone: true,//是否为发送手机验证码，如果是则会验证手机号格式，-----必须-----
+        getPhone: function (){//获取手机号，此+处一定要return
+        	
+            return $("#j_phone").val();
+        },
+        phoneReg: /^1[34578]\d{9}$/,//手机号验证正则
+        phoneCallBack: function (){//当手机号有误时的回调，默认会中止操作
+            alert("您输入的手机号有误");
+        },
+        timeIsUpText: "重新发送",//倒计时时间到了后按钮所显示文字
+        timeRunnigText: "s后重新发送",//倒计时时间正在走的时候按钮所显示文字。默认为"xxs后重新获取"
+        unabledClass: "unlabed"//按钮不能用的样式，即点击按钮后的样式
+    }));
+
+//    点击确认订单消失
+    $(function(){
+        $(".wrap1").click(function(){
+            $(".wrap1").hide();
+            return false;
+        })
+        $("#confirm").click(function(){
+            return false;
+        })
+        
+        /* $('[name=couponCode]').input(function(event){ 
+        	if(value.length>6)
+        		value=value.slice(0,5)
+        	$($('[name=couponCode]').nextAll('span.square')).each(function(index,ele){
+        			$(ele).text($('[name=couponCode]').val().charAt(index))        		
+        	})
+        	
+        	if($('[name=couponCode]').val().length==6){
+        		$('[name=couponCode]').blur();
+        	}
+        	
+        	
+        	
+        }
+        ); */
+    })
+    function couponcode_input(){
+    	$($('[name=couponCode]').nextAll('span.square')).each(function(index,ele){
+			$(ele).text($('[name=couponCode]').val().charAt(index))        		
+	})
+	
+    	
+    	if($('[name=couponCode]').val().length==6){
+    		$('[name=couponCode]').blur();
+    		$.ajax({
+                type: 'GET',
+                async: false,
+                data: {},
+                url: '/order/coupon?code='+event.target.value,
+                dataType: 'json',
+                success: function (data) {
+                	if(!data.discountAmount){
+                		alert('未找到该优惠券')
+                	}else if(data.status == 1){
+                    	alert('优惠券未生效')
+                    }else if(data.status == 2){
+                    	alert('优惠券过期')
+                    }else if(data.status == 3){
+                    	alert('优惠券已使用')
+                    }
+                    else{
+                    	couponAmount = data.discountAmount;
+                    	couponCode = event.target.value;
+                    	calculate();
+                    }
+                    
+                },
+                error:function(xhr, msg, reasonString){
+                    alert('优惠券获取失败')
+                }
+            });
+	}
+    	
+}
+    
+    function subCount(packageId){
+		var count = parseInt($('#'+packageId+' .buyCount').text())-1;
+	if(count >= 1){
+		$('#'+packageId+' .buyCount').text(count)
+		//$('.total .red').text(parseInt($('.total .red').text())-parseInt( $('#'+packageId+' .price .red .price_val').text()))
+		packages[packageId].count=count
+		calculate()
+	}
+	 
+   }
+   
+    function addCount(packageId){
+		var count = parseInt($('#'+packageId+' .buyCount').text())+1;
+		//$('.total .red').text(parseInt($('.total .red').text())+parseInt($('#'+packageId+' .price .red .price_val').text()))
+		$('#'+packageId+' .buyCount').text(count)
+		packages[packageId].count=count
+		calculate()
+   }
+   
+    function create_order(){
+    	var mobile_phone = $('div#confirm [name=mobile_phone]').val();
+    	var verifycode = $('div#confirm [name=verifycode]').val();
+    	if(!addressSn){
+    		alert('请选择收货地址');
+    		return ;
+    	}
+    	if(!$("#regMobile").val()){
+	    	if(!mobile_phone){
+	    		alert('请输入手机号');
+	    		return ;
+	    	}
+	    	if(!verifycode){
+	    		alert('请输入验证码');
+	    		return ;
+	    	}
+    	}
+    	 $.ajax({
+             type: 'POST',
+             async: false,
+             data: {
+            	 mobile_phone:mobile_phone,
+            	 verifycode:verifycode,
+            	 coupon_code:couponCode,
+            	 pay_scheme:payScheme,
+            	 address_sn:addressSn,
+            	 package_sns:orderparam_package_sns,
+    	 		 package_counts:orderparam_package_counts
+    	 
+             },
+             url: '/order/create',
+             dataType: 'json',
+             success: function (data) {
+             	if(data.status != 0){
+             		alert(data.statusMsg)
+             		return;
+             	}else{
+             		window.location.href='/order/topaypage?order_sn='+data.orderSn;
+             	}
+             },
+             error:function(xhr,textStatus){
+     	    	if(xhr.getResponseHeader('sessionstatus') === "timeout"){
+     	    		window.location.href = "/member/login/nomal";
+     	    	}
+     	    }
+             })
+        
+    }
+</script>
+<script src="/script/member/order/confirm.js"></script>

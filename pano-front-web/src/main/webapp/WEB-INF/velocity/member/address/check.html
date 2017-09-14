@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, user-scalable=no, initial-scale=1.0">
+<title>收货地址</title>
+<link rel="stylesheet" href="/style/h5static/css/bass.css">
+<link rel="stylesheet" href="/style/h5static/css/index.css">
+<script src="/style/h5static/js/main.js"></script>
+
+<script>
+	function setDef(SN) {
+		window.location.href = "/personal/setDef?SN=" + SN;
+	}
+</script>
+
+</head>
+<body>
+	<div class="container addr">
+		<!--图片-->
+		<section class="addr-section">
+			#foreach ($!address in $!addressList) 
+				#if($!address.defaultFirst == 1)
+			<div class="addr-item">
+				<img src="/style/h5static/image/img/27.png" alt=""> 
+				#end
+				#if($!address.defaultFirst == 0)
+				<div class="addr-item col" onclick="setDef('$!{address.sn}')">
+				#end
+					<div>
+						<p class="clearfix">
+							<span class="fl">$!address.userName/
+								#if($!address.sex == 1) 女士 #end #if($!address.sex == 2) 先生 #end
+							</span> <span class="fr">$!address.mobile</span>
+						</p>
+						<p>收货地址：$!address.province $!address.city $!address.area $!address.street</p>
+						<p class="clearfix">
+							<a href="/personal/delSite?SN=$!address.sn" class="fr">删除</a> <a
+								href="/personal/toupAddress?SN=$!address.sn" class="fr">编辑</a>
+						</p>
+					</div>
+				</div>
+				#end
+		</section>
+		<a href="/personal/toaddaddress" class="button bcdz"> 添加地址 </a>
+
+	</div>
+</body>
+</body>
+</html>

@@ -1,0 +1,82 @@
+#set($layout = "layout/member/layout_cert.html")
+<link rel="stylesheet" href="/style/admstatic/css/bass.css">
+<link rel="stylesheet" href="/style/admstatic/css/index.css">
+<link rel="stylesheet" href="/script/mui/picker/mui.picker.css">
+<link rel="stylesheet" href="/script/mui/picker/mui.poppicker.css">
+<script src="/style/admstatic/js/main.js"></script>
+<script type="text/javascript">
+
+	/* $("#submit").click(function(){
+	 var a= document.getElementById("CERT_NO").value;  
+	 var patten= new RegExp(/^[0-9]{17}[0-9|X]$/);  
+	 if(patten.test(a))  
+	 {      
+	 alert("输入正确");  
+	 }else  
+	 {     
+	 alert("输入错误");  
+	 }
+	 }); */
+</script>
+<style>
+button{border: none;}
+</style>
+	<div class="container add">
+		<!--图片-->
+		<section class="addr-section">
+			<form method="post" action="/personal/upCert">
+				<input id="SN" type="hidden" name="SN" value="$!{memuser.SN}" />
+				<div class="add-item mrg" style="margin-bottom: .08rem;">
+					<p class="label">姓名:</p>
+					<input type="text" placeholder="姓名" id="NAME" name="NAME"
+						value="$!{memuser.name}">
+				</div>
+				<div class="add-item" id="showSexPicker">
+					<label class="label">性别:</label>
+					<input type="text" readonly="readonly"  placeholder="请选择性别" id="sexResult" value="#if($!memuser.sex == 1)女#else男#end"> 
+					<i class="iconfont">&#xe6c7;</i>
+					<input type="hidden" id="sexResultValue" name="SEX" value="$!memuser.sex">
+				</div>
+				<div class="add-item">
+					<label class="label">身份证号码:</label> <input type="tel"
+						placeholder="身份证号码" id="CERT_NO" name="CERT_NO"
+						value="$!{memuser.certNo}">
+				</div>
+				<div class="cer-submit">
+					<button id="submit" class="submit" type="submit" style="background:#c8c6c7;padding: 0.2rem 1.7rem">确认提交</button>
+				</div>
+			</form>
+		</section>
+	</div>
+<script src="/script/mui/mui.min.js"></script>
+<script src="/script/mui/picker/mui.picker.min.js"></script>
+<script>
+	(function($, doc) {
+		$.init();
+		$.ready(function() {
+			var _getParam = function(obj, param) {
+				return obj[param] || '';
+			};
+			//普通示例
+			var userPicker = new $.PopPicker();
+			userPicker.setData([{
+				value: '2',
+				text: '男'
+			}, {
+				value: '1',
+				text: '女'
+			}]);
+			var showUserPickerButton = doc.getElementById('showSexPicker');
+			var userResult = doc.getElementById('sexResult');
+			var userResultValue = doc.getElementById('sexResultValue');
+			showUserPickerButton.addEventListener('tap', function(event) {
+				userPicker.show(function(items) {
+					userResult.value = _getParam(items[0], 'text');
+					userResultValue.value = _getParam(items[0], 'value');
+				});
+			}, false);
+		});
+	})(mui, document);
+	
+
+</script>
