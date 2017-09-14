@@ -28,7 +28,6 @@
      <section class="order-items">
     	<p style="margin:auto;width:100%; text-align:center; height:8.7rem;font-size:.3rem;color:#999;">
     	<img style="width:4rem;height:2.57rem;display:block;margin:0 auto; margin-top:2rem; margin-bottom:.5rem;" src="../images/kong-dd.png">
-    	
     	<small>您还没有相关定单</small></p>
      </section>
     #else
@@ -38,11 +37,20 @@
 			#foreach($!order in $!orderGroupMap.get($!orderKey).orders)
 		    <div class="one_list"><span class="fl">订单号:$!order.orderNum </span><small class="fr">$!date.format("yyyy-MM-dd HH:mm:ss",$!order.orderTime)</small></div>
 		    <div class="clearfix"></div>
-		    <div class="two_list"><p class="fl">$!order.orderPackages.get(0).housePackage.style.name $!order.orderPackages.get(0).housePackage.house.name</p><small class="fr red">等待买家付款</small></div>
+		    <div class="two_list">
+		    	<p class="fl">$!order.orderPackages.get(0).housePackage.style.name $!order.orderPackages.get(0).housePackage.house.name</p>
+		    	<small class="fr red">
+		    	#if(($!order.status==2 and $!order.leftMoney == 0) or ($!order.status==2 and $!order.sonOrder.status == 2))
+		    	买家已付款
+		    	#else
+		    	等待买家付款
+		    	#end
+		    	</small>
+		    </div>
 				#foreach($!orderPackage in $!order.orderPackages)
 			    <div class="clearfix"></div>
 			    <section class="order-items">
-			      <div class="order-item" onclick="location.href='/order/orderpage?order_sn=$!order.sn'">
+			      <div class="order-item">
 			          <div class="cont" >
 			              <a href="#"><img src="$!fs.url($!orderPackage.housePackage.imgSn)" ></a>
 			              <div class="detail">
@@ -74,9 +82,12 @@
 			            </a>
 			        </div>
 				#end
-			 	<div class="one_list" style="border-top:1px solid #ddd;"><p class="mar_r12" style="text-align:right;">共 <span>$!order.orderPackages.size()</span>件产品 合计￥<span>$!order.payMoney</span>元（含运费 <span>0.00</span>元 ）</p></div>
+			 	<div class="one_list" style="border-top:1px solid #ddd;"><p class="mar_r12" style="text-align:right;"><span>共 $!order.orderPackages.size() 件产品</span><span>合计￥$!order.payMoney 元</span>（含运费 0.00元）</p></div>
 				<div class="clearfix"></div>
-		       	<div style=" height:.8rem; background:#fff;"><a href="#" style="margin-top:.16rem;" class="paying">立即付款</a></div>
+				#if(($!order.status==2 and $!order.leftMoney == 0) or ($!order.status==2 and $!order.sonOrder.status == 2))
+		    	#else
+		       	<div style=" height:.8rem; background:#fff;"><a href="/order/orderpage?order_sn=$!order.sn" style="margin-top:.16rem;" class="paying">立即付款</a></div>
+		    	#end
 		        <div class="clearfix"></div>
 			#end
 		#end

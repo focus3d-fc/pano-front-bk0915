@@ -10,6 +10,18 @@
 .noline{border:none;border-style:none !important;font-size:.26rem;outline:medium;background:none;}
 .img_b0{width:.3rem !important;height:.3rem !important;margin-bottom:.16rem !important;}
 .new_yzm{font-size:.26rem;}
+.one_list{background-color:#fff !important; border-bottom:1px solid #e1e1e1;height:.8rem;line-height:.8rem;}
+.one_list h6{font-size:.24rem;font-weight:bold; line-height:.8rem;padding-left:12px;}
+.one_list span{padding-left:12px;}
+.one_list small{margin-right:12px;}
+.eidt{font-size:.22rem;color:#434343;margin-right:12px;line-height:.8rem;}
+.two_list{background-color:#fff !important; border-bottom:1px solid #e1e1e1;height:.8rem;line-height:.8rem;}
+.two_list small{margin-right:12px;line-height:.8rem;}
+.two_list p{font-size:.24rem;line-height:.8rem;padding-left:12px;}
+.order-items .order-item {margin-top:0 !important;background:#fff !important;}
+.red{color:#ed1b24;}
+.mar_r12{margin-right:12px;}
+.paying { padding: .1rem .3rem;border-radius: .05rem; background-color: #000; color: #fff;float:right;margin-right:12px;}
 </style>
 <div class="container confirm">
 	<!--列表头-->
@@ -26,36 +38,42 @@
 		<!-- <a href="/personal/toaddress?packageSns=$!packageSns" class="right"><i class="iconfont">&#xe6c7;</i></a> -->
 	</section>
 	<!--订单-->
+    <div class="one_list"><span class="fl">订单号:$!order.orderNum</span><small class="fr">$!date.format("yyyy-MM-dd HH:mm:ss",$!order.orderTime)</small></div>
+    <div class="clearfix"></div>
+	<div class="one_list"><h6 class="fl">$!order.orderPackages.get(0).housePackage.project.name</h6></div>
+    <div class="clearfix"></div>
+    <div class="two_list"><p class="fl">北欧风格A2户型</p></div>
+    <div class="clearfix"></div>
 	<section class="order-items" >
-		#foreach($!orderPackage in $!order.orderPackageModels)
+		#foreach($!orderPackage in $!order.orderPackages)
 		<div class="order-item" id="$!housePackage.sn">
 			<div class="title">
 				<div style="font-size:.23rem;">
 				
-					<i style="font-size:.28rem;" class="iconfont">&#xe71f;</i> $!orderPackage.housePackageModel.name
+					<i style="font-size:.28rem;" class="iconfont">&#xe71f;</i> $!orderPackage.housePackage.name
 				</div>
 			</div>
 			<div class="cont" style="background:#fff;">
-				<a href="#"><img src="$!fs.url($!orderPackage.housePackageModel.imgSn)"></a>
+				<a href="#"><img src="$!fs.url($!orderPackage.housePackage.imgSn)"></a>
 				<div class="detail">
-					<a href="#"><p class="detail-tlt">$!orderPackage.housePackageModel.style.name
-							$!orderPackage.housePackageModel.house.name</p></a>
-					<p class="col detail-con">$!orderPackage.housePackageModel.name</p>
+					<a href="#"><p class="detail-tlt">$!orderPackage.housePackage.style.name
+							$!orderPackage.housePackage.house.name</p></a>
+					<p class="col detail-con">$!orderPackage.housePackage.name</p>
 				</div>
 				<div class="price">
 					<p class="red">
-						￥<span class='price_val'>$!orderPackage.housePackageModel.packagePrice</span>
+						￥<span class='price_val'>$!orderPackage.housePackage.packagePrice</span>
 					</p>
-					<s class="col">￥$!orderPackage.housePackageModel.discountPrice</s>
+					<s class="col">￥$!orderPackage.housePackage.discountPrice</s>
 					<p class="col">
 						×<span>$!orderPackage.purchaseNum</span>
 					</p>
 				</div>
 			</div>
 			<div class="pro-show" style="display: none;">
-        			#foreach($!detail in $!orderPackage.orderPackageDetails)
+        			#foreach($!detail in $!orderPackage.details)
 					<div class="left">
-						<a href="/perspective/QueryPerspective"> 
+						<a href="javascript:void(0)"> 
 							<img src="$!fs.url($!detail.packageProduct.fullImgSn)" alt="">
 							<div class="de">
 								<p>$!detail.packageProduct.name</p>
@@ -134,12 +152,7 @@
             <div style="text-align:center;font-size:15px;color:grey;background:#fff; height:30px;line-height:30px; width:100%; padding-top:.1rem; border-top:1px solid #f6f6f6;"><img src="../images/40.png" style="height:.5rem;width:.5rem;margin-right:.1rem;" /><a id="contactUs" style="vertical-align:middle;">联系我们</a></div>
           <div class="bulkhead" style="height:10px;background-color:white;;margin:0 -8px"></div>
           <div style="height:1.6rem;padding:.2rem 0; background:#fff;border-top:1px solid #f6f6f6;padding:.2rem 8px;">
-	            <div style="line-height:24px;color:grey;">
-	           		订单编号：$!order.orderNum
-	            </div>
-	            <div style="line-height:24px;color:grey;">
-	           		创建时间：$!date.format('yyyy-MM-dd HH:mm:ss',$!order.orderTime)
-	            </div>
+	            
             <div class="bulkhead" style="height:10px;background-color:white;margin:0 -8px"></div>
             <div style="height:25px;">
            #if($!order.leftPay==0)

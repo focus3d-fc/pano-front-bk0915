@@ -40,7 +40,7 @@ and
 IFNULL((SELECT STATUS  FROM `pano_order`  WHERE  parent_order_sn = o.sn ),2) != 1 
 
 )
-  
+   ORDER BY o.order_time DESC
   </select>
   
   
@@ -53,7 +53,7 @@ OR
 (o.left_pay = 1 AND (SELECT STATUS  FROM `pano_order`  WHERE  parent_order_sn = o.sn ) = 1 )
 
 )
-  
+   ORDER BY o.order_time DESC
   </select>
   
    <select id="selectAllOrders" resultMap="ibatorgenerated_BaseResultMap">
@@ -65,6 +65,7 @@ OR
 
 o.user_sn=#userSn# AND 
  o.parent_order_sn=-1
+  ORDER BY o.order_time DESC
    
   </select>
 </sqlMap>

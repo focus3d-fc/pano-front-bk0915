@@ -666,7 +666,6 @@ public class PanoOrderController extends BaseController {
 		String orderSnParam = StringUtils.trimToNull(request.getParameter("order_sn"));
 		Long orderSn = Long.parseLong(orderSnParam);
 		PanoOrderModel order = orderService.getOrderDetail(orderSn);
-		
 		map.put("order", order);
 		map.put("dueStage1Money", (int) (order.getSumMoney().floatValue() * 0.2 * 100) / 100.0);
 		return "/member/order/order_detail";
