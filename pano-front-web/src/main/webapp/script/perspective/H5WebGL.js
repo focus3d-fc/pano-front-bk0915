@@ -107,8 +107,8 @@ var WebGL = {
     },
     onmousedown:function(event){
         event.preventDefault();
-        var x = ((event.clientX - _offset.left) / WebGL_Container.width()) * 2 - 1;
-        var y = - ((event.clientY - _offset.top) / WebGL_Container.height() ) * 2 + 1;
+        var x = ((event.clientX + $(document).scrollLeft() - _offset.left) / WebGL_Container.width()) * 2 - 1;
+        var y = - ((event.clientY + $(document).scrollTop() - _offset.top) / WebGL_Container.height() ) * 2 + 1;
         var vector  = new THREE.Vector3(x,y,1).unproject(camera);
         var ray = vector.sub(camera.position).normalize();
         var raycaster = new THREE.Raycaster(camera.position,ray);
