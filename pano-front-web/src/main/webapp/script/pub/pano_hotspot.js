@@ -60,10 +60,6 @@ $(function(){
 	        console.log('请求错误')
 	    }
 	});
-	
-
-
-	
 });
 
 //点击户型按钮
@@ -89,8 +85,6 @@ function getHouse(){
 	    		//绑定点击户型图片事件，切换户型全景
 	    		img.bind("click", function(){
 	    			var houseSn = $(this).attr("encryptSn");
-	    			//clickHouse(houseSn);
-	    			//alert("户型sn:"+houseSn);
 	    			//设置当前选中的户型sn
 	    			$("#hx-swiper-wrapper").find("img").removeClass("hxfj_border");
 	    			$(this).addClass("hxfj_border");
@@ -148,10 +142,8 @@ function getFjshow(panoId){
 	    		var sceneId = data[i].sceneId;
 	    		var sceneName = data[i].sceneName;
 	    		var sceneThumb = data[i].sceneThumb;
-	    		
 	    		var img = $("<img/>").attr("src", sceneThumb).attr("scene_id",sceneId);
 	    		 $("<div/>").addClass("bd-r2").addClass("swiper-slide" + (i == 0 ? " bd-r " : "")).append($("<div/>").append(img).append($("<p/>").text(sceneName))).appendTo($("#hx-swiper-wrapper"));
-	    		
 	    		//点击房间图片，切换场景
 	    		img.bind("click", function(){
 	    			$("#hx-swiper-wrapper").find("img").removeClass("hxfj_border");
@@ -327,6 +319,31 @@ function closeHotspotWin(){
 function panoLoadComplete(){
 	$("#bottomBar").show();
 	$("#mcIcon").show();
+	addHousePackageToShopcart();
+}
+
+function addHousePackageToShopcart(){
+	var projectSn = $("#projectId").val();
+	var houseSn = $("#houseId").val();
+	var styleSn = $("#styleId").val();
+	$.ajax({
+	    url: "/fp/fillshopcart",
+	    type:'GET',
+	    async:true,
+	    timeout:10000,
+	    data : {
+	    	projectSn : projectSn,
+	    	houseId : houseSn,
+	    	styleId : styleSn
+	    },
+	    dataType: "json",
+	    success:function(data){
+	    	
+	    },
+	    error:function(xhr,textStatus){
+	        console.log('请求错误')
+	    }
+	});
 }
 /**
  * 全景客户端

@@ -108,7 +108,7 @@
     	   var projectSn = $("#projectId").val();
     	   var houseSn = $("#houseId").val();
     	   var styleSn = $("#styleId").val();
-    	   var url = "/shopcart/list?checkProjectSn=" + projectSn + "&styleId=" + styleSn + "&houseId=" + houseSn;
+    	   var url = "/shopcart/list?projectSn=" + projectSn + "&styleId=" + styleSn + "&houseId=" + houseSn;
     	   window.location.href = url;
        });
     });

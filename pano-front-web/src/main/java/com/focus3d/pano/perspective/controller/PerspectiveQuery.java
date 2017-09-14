@@ -543,7 +543,9 @@ public class PerspectiveQuery extends BaseController {
 			PanoProjectHouseStyleModel houseStyleModel = houseStyleService.getBySn(TCUtil.lv(houseStyleSn));
 			Long projectSn = houseStyleModel.getProjectSn();
 			Long styleSn = houseStyleModel.getStyleSn();
+			Long houseSn = houseStyleModel.getHouseSn();
 			result.put("styleId", styleSn);
+			result.put("houseId", EncryptUtil.encode(houseSn));
 			result.put("projectSn", EncryptUtil.encode(projectSn));
 			result.put("viewlist",JsonUtils.arrayToJson(list.toArray()));
 			//result.put("product", JsonUtils.objectToJson(product));

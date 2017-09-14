@@ -15,6 +15,28 @@
 	.red{color:#ed1b24;}
 	.mar_r12{margin-right:12px;}
 	.paying { padding: .1rem .3rem;border-radius: .05rem; background-color: #000; color: #fff;float:right;margin-right:12px;}
+	.paying_cancel { padding: .1rem .3rem;border-radius: .05rem; background-color: rgba(0,0,0,.3); color: #fff;float:right;margin-right:12px;}
+	.nav {
+	    position: fixed;
+	    bottom: 0;
+	    left: 0;
+	    width: 100%;
+	    height: 1.05rem;
+	    /* line-height: 1rem; */
+	    background-color: rgba(0,0,0,.3);
+	    color: #fff;
+	    display: -webkit-flex;
+	    display: -moz-flex;
+	    display: flex;
+	    display: -ms-flexbox;
+	    flex-flow: row nowrap;
+	    justify-content: space-between;
+	}
+	.nav a p {
+    	padding-top: .05rem;
+    	font-size: .2rem;
+    	text-align: center;
+	}
 </style>
 <div class="container">
     <!--列表头-->
@@ -86,13 +108,39 @@
 				<div class="clearfix"></div>
 				#if(($!order.status==2 and $!order.leftMoney == 0) or ($!order.status==2 and $!order.sonOrder.status == 2))
 		    	#else
-		       	<div style=" height:.8rem; background:#fff;"><a href="/order/orderpage?order_sn=$!order.sn" style="margin-top:.16rem;" class="paying">立即付款</a></div>
+		       	<div style=" height:.8rem; background:#fff;">
+		       		<a href="/order/orderpage?order_sn=$!order.sn" style="margin-top:.16rem;" class="paying">立即付款</a>
+		       		<a id="cancelOrder" order_sn="$!order.sn" href="javascript:void(0)" style="margin-top:.16rem;" class="paying_cancel">取消付款</a>
+		       	</div>
 		    	#end
 		        <div class="clearfix"></div>
 			#end
 		#end
     </section>
     #end
+    <div style="height:1.1rem;"></div>
+ 
+    <nav class="nav" style="padding: 0 .1rem;">
+        <a href="/index"  id="tcshow">
+            <img style="width:.65rem;height:.65rem;" src="$!fs.url($!{img_home})" alt="">
+            <p>首页</p>
+        </a>
+        <!-- 
+        
+        <a href="/fp/720?style_id=$!styleId" id="hxshow">
+            <img style="width:.65rem;height:.65rem;" src="$!fs.url($!{img_house})" alt="">
+            <p>户型</p>
+        </a>
+        <a href="/fp/720?style_id=$!styleId" id="fjshow">
+            <img style="width:.65rem;height:.65rem;" src="$!fs.url($!{img_space})" alt="">
+            <p>房间</p>
+        </a>
+        <a href="/shopcart/list?styleId=$!styleId&projectSn=$!project.encryptSn" class="on">
+            <img style="width:.65rem;height:.65rem;" src="$!fs.url($!{img_tc})" alt="">
+            <p>套餐</p>
+        </a>
+         -->
+    </nav>
 </div>
 <input type="hidden" id="status" value="$!status"/>
 <script>
@@ -101,7 +149,6 @@ $(function(){
 	var status = parseInt($!("#status").val());
 	$(".order-title").children().removeClass("on");
 	$(".order-title").find("a:eq(" +　status　+　")").addClass("on");
-	
 	//点击展开收起
 	$("a[id^='closeOrOpen_']").click(function(){
 		var status = $(this).attr("status");
@@ -117,5 +164,12 @@ $(function(){
 			$(this).attr("status", 0);
 		}
 	});
+	
+	$("#cancelOrder").click(function(){
+		if(confirm("确认删除订单？")){
+			var orderSn = $(this).attr("order_sn");
+			window.location.href = "/order/cancel?order_sn=" + orderSn;
+		}
+	})
 });
 </script>

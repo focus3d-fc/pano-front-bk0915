@@ -98,6 +98,7 @@
 			userSn = '$!{userSn}';
 			productView = $.parseJSON('$!productView');
 			var styleId = $("#styleId").val();
+			var houseId = $("#houseId").val();
 			var projectSn = $("#projectSn").val();
 			var packageTypeSn = $("#packageTypeSn").val();
 			$("#exchange_view").hide();
@@ -116,12 +117,11 @@
 							function() {
 								update_cart(function() {
 									//这里添加返回至套餐的代码
-									window.location.href = "/shopcart/list?packageTypeSn="
-											+ packageTypeSn
-											+ "&houseStyleSn="
-											+ houseStyleSn
-											+ "&checkProjectSn="
-											+ projectSn;
+									window.location.href = "/shopcart/list?packageTypeSn=" + packageTypeSn
+											+ "&houseStyleSn=" + houseStyleSn
+											+ "&projectSn=" + projectSn
+											+ "&styleId=" + styleId
+											+ "&houseId=" + houseId;
 								});
 							});
 			var rate = 4 / 3;
@@ -141,7 +141,8 @@
 	</script>
 	<input type="hidden" id="packageTypeSn" value="$!packageTypeSn" />
 	<input type="hidden" id="houseStyleSn" value="$!houseStyleSn" />
-	<input type="hidden" id="styleId" value="$!styleId" />
 	<input type="hidden" id="projectSn" value="$!projectSn" />
+	<input type="hidden" id="styleId" value="$!styleId" />
+	<input type="hidden" id="houseId" value="$!houseId" />
 </body>
 </html>

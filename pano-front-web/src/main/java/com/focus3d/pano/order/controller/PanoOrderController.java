@@ -64,6 +64,7 @@ import com.focus3d.pano.order.service.PanoOrderService;
 import com.focus3d.pano.order.service.PanoOrderTransService;
 import com.focus3d.pano.pay.lianlian.utils.YinTongUtil;
 import com.focus3d.pano.project.service.PanoProjectHousePackageService;
+import com.focus3d.pano.pub.controller.AbstractPanoController;
 import com.focus3d.pano.shopcart.service.PanoOrderShopCartService;
 import com.focus3d.pano.sms.service.SmsValidateService;
 import com.focus3d.pano.user.service.PanoMemUserService;
@@ -84,7 +85,7 @@ import com.yintong.paywap.domain.PaymentInfo;
  */
 @Controller
 @RequestMapping(value = "/order")
-public class PanoOrderController extends BaseController {
+public class PanoOrderController extends AbstractPanoController {
 	private static Logger logger = Logger.getLogger(PanoOrderController.class);
 	@Autowired
 	private PanoProjectHousePackageService<PanoProjectHousePackageModel> housePackageService;
@@ -669,6 +670,42 @@ public class PanoOrderController extends BaseController {
 		map.put("order", order);
 		map.put("dueStage1Money", (int) (order.getSumMoney().floatValue() * 0.2 * 100) / 100.0);
 		return "/member/order/order_detail";
+	}
+	/**
+	 * 取消订单
+	 * *
+	 * @param request
+	 * @param response
+	 * @param map
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/cancel")
+	public String delete(HttpServletRequest request, HttpServletResponse response, ModelMap map) throws Exception {
+		String orderSnParam = StringUtils.trimToNull(request.getParameter("order_sn"));
+		Long orderSn = Long.parseLong(orderSnParam);
+		PanoOrderModel order = orderService.getOrderDetail(orderSn);
+		PanoOrderModel childrenOrder = order.getChildrenOrder();
+		deleteOrder(childrenOrder);
+		deleteOrder(order);
+		return redirect("/order/orderspage");
+	}
+	/**
+	 * 
+	 * *
+	 * @param order
+	 */
+	private void deleteOrder(PanoOrderModel order) {
+		if(order != null){
+			List<PanoOrderPackageModel> childrenOrderPackages = order.getOrderPackages();
+			for (PanoOrderPackageModel panoOrderPackageModel : childrenOrderPackages) {
+				List<PanoOrderPackageDetailModel> childrenOrderDetails = panoOrderPackageModel.getDetails();
+				for (PanoOrderPackageDetailModel panoOrderPackageDetailModel : childrenOrderDetails) {
+					panoOrderPackageDetailService.delete(panoOrderPackageDetailModel);
+				}
+				panoOrderPackageService.delete(panoOrderPackageModel);
+			}
+		}
 	}
 
 	/**

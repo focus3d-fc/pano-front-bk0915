@@ -681,7 +681,7 @@ function CreatePerspective(data){
 }
 
 function return_panorama(projectSn, styleId){
-	window.location.href = "/fp/720?style_id=" + styleId + "&checkProjectSn=" + projectSn;
+	window.location.href = "/fp/720?styleId=" + styleId + "&projectId=" + projectSn;
 }
 
 function update_cart(callback){
