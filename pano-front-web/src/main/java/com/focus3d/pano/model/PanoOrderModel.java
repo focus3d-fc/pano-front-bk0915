@@ -2,12 +2,10 @@ package com.focus3d.pano.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import com.focus3d.pano.common.model.CommonModel;
 import com.focus3d.pano.model.ibator.PanoOrder;
 import com.focus3d.pano.model.ibator.PanoOrderCriteria;
-import com.focus3d.pano.order.controller.PanoOrderPackageVo;
 
 public class PanoOrderModel extends PanoOrder<PanoOrderModel, PanoOrderCriteria> implements CommonModel {
 	/**
@@ -22,8 +20,6 @@ public class PanoOrderModel extends PanoOrder<PanoOrderModel, PanoOrderCriteria>
 	private PanoOrderCouponItemModel couponItem;
 	//子订单
 	private PanoOrderModel childrenOrder;
-	
-	private Map<String, PanoOrderPackageVo> packageGropMap;
 
 	public PanoOrderModel getChildrenOrder() {
 		return childrenOrder;
@@ -69,13 +65,5 @@ public class PanoOrderModel extends PanoOrder<PanoOrderModel, PanoOrderCriteria>
 			return order.getSn().equals(this.getSn());
 		}
 		return false;
-	}
-
-	public Map<String, PanoOrderPackageVo> getPackageGropMap() {
-		return packageGropMap;
-	}
-
-	public void setPackageGropMap(Map<String, PanoOrderPackageVo> packageGropMap) {
-		this.packageGropMap = packageGropMap;
 	}
 }

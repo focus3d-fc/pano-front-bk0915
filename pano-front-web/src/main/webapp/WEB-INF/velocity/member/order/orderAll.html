@@ -13,7 +13,8 @@
 	.two_list p{font-size:.24rem;line-height:.8rem;padding-left:12px;}
 	.order-items .order-item {margin-top:0 !important;background:#fff !important;}
 	.red{color:#ed1b24;}
-	
+	.mar_r12{margin-right:12px;}
+	.paying { padding: .1rem .3rem;border-radius: .05rem; background-color: #000; color: #fff;float:right;margin-right:12px;}
 </style>
 <div class="container">
     <!--列表头-->
@@ -31,56 +32,54 @@
     	<small>您还没有相关定单</small></p>
      </section>
     #else
-    #foreach($!orderKey in $!orderGroupMap.keySet())
-    <div class="one_list"><h6 class="fl">$!orderGroupMap.get($!orderKey).project.name</h6></div>
-    <div class="clearfix"></div>
-	#foreach($!order in $!orderGroupMap.get($!orderKey).orders)
-    <div class="one_list"><span class="fl">订单号:$!order.orderNum </span><small class="fr">$!date.format("yyyy-MM-dd hh:mm:ss",$!order.orderTime)</small></div>
-    <div class="clearfix"></div>
-	#foreach($!packageGrop in $!order.packageGropMap.keySet())
-    <div class="two_list"><p class="fl">$!order.packageGropMap.get($!packageGrop).style.name $!order.packageGropMap.get($!packageGrop).house.name</p><small class="fr red">等待买家付款</small></div>
-    <div class="clearfix"></div>
-    <section class="order-items">
-      #foreach($!orderPackage in $!order.packageGropMap.get($!packageGrop).orderPackages)
-      <div class="order-item" onclick="location.href='/order/orderpage?order_sn=$!order.sn'">
-          <div class="cont" >
-              <a href="#"><img src="$!fs.url($!orderPackage.housePackage.imgSn)" ></a>
-              <div class="detail">
-                  <a href="#"><p>$!orderPackage.housePackage.name</p></a>
-                  <p class="red fl">￥$!orderPackage.housePackage.packagePrice <s class="col"> $!orderPackage.housePackage.discountPrice</s></p><p class="fr">$!{orderPackage.totalProductNum}件</p>
-              </div>
-          </div>
-      </div>
-	  <div class="pro-show" style="display: none;">
-	  	 #foreach($!detail in $!orderPackage.details)	
-         <div class="left">
-            <a href="javascript:void(0)">
-                <img src="$!fs.url($!detail.packageProduct.fullImgSn)" alt="">
-                <div class="de">
-                    <p>$!detail.packageProduct.name</p>
-                    <p class="col">$!detail.packageProduct.dimension</p>
-                    <p>$!detail.packageProduct.fabricColor x$!detail.productNum</p>
-                </div>
-            </a>
-        </div>
-        #end
-        #if($!shopcart.details.size() % 2 != 0)
-		<div class="left"></div>
+	    #foreach($!orderKey in $!orderGroupMap.keySet())
+	    <div class="one_list"><h6 class="fl">$!orderGroupMap.get($!orderKey).project.name</h6></div>
+	    <div class="clearfix"></div>
+			#foreach($!order in $!orderGroupMap.get($!orderKey).orders)
+		    <div class="one_list"><span class="fl">订单号:$!order.orderNum </span><small class="fr">$!date.format("yyyy-MM-dd HH:mm:ss",$!order.orderTime)</small></div>
+		    <div class="clearfix"></div>
+		    <div class="two_list"><p class="fl">$!order.orderPackages.get(0).housePackage.style.name $!order.orderPackages.get(0).housePackage.house.name</p><small class="fr red">等待买家付款</small></div>
+				#foreach($!orderPackage in $!order.orderPackages)
+			    <div class="clearfix"></div>
+			    <section class="order-items">
+			      <div class="order-item" onclick="location.href='/order/orderpage?order_sn=$!order.sn'">
+			          <div class="cont" >
+			              <a href="#"><img src="$!fs.url($!orderPackage.housePackage.imgSn)" ></a>
+			              <div class="detail">
+			                  <a href="#"><p>$!orderPackage.housePackage.name</p></a>
+			                  <p class="red fl">￥$!orderPackage.housePackage.packagePrice <s class="col"> $!orderPackage.housePackage.discountPrice</s></p><p class="fr">$!{orderPackage.totalProductNum}件</p>
+			              </div>
+			          </div>
+			      </div>
+				  <div class="pro-show" style="display: none;">
+				  	 #foreach($!detail in $!orderPackage.details)	
+			         <div class="left">
+			            <a href="javascript:void(0)">
+			                <img src="$!fs.url($!detail.packageProduct.fullImgSn)" alt="">
+			                <div class="de">
+			                    <p>$!detail.packageProduct.name</p>
+			                    <p class="col">$!detail.packageProduct.dimension</p>
+			                    <p>$!detail.packageProduct.fabricColor x$!detail.productNum</p>
+			                </div>
+			            </a>
+			        </div>
+			        #end
+			        #if($!shopcart.details.size() % 2 != 0)
+					<div class="left"></div>
+					#end
+			        </div>
+			        <div class="total show">
+			            <a href="car.html">
+							<a id="closeOrOpen_$!velocityCount" href="javascript:void(0)" style="color:#aaa;"> 点击展开 <i class="iconfont">&#xe612;</i></a>
+			            </a>
+			        </div>
+				#end
+			 	<div class="one_list" style="border-top:1px solid #ddd;"><p class="mar_r12" style="text-align:right;">共 <span>$!order.orderPackages.size()</span>件产品 合计￥<span>$!order.payMoney</span>元（含运费 <span>0.00</span>元 ）</p></div>
+				<div class="clearfix"></div>
+		       	<div style=" height:.8rem; background:#fff;"><a href="#" style="margin-top:.16rem;" class="paying">立即付款</a></div>
+		        <div class="clearfix"></div>
+			#end
 		#end
-        </div>
-        <div class="total show">
-            <a href="car.html">
-				<a id="closeOrOpen_$!velocityCount" href="javascript:void(0)" style="color:#aaa;"> 点击展开 <i class="iconfont">&#xe612;</i></a>
-            </a>
-        </div>
-      #end
-	#end
-	<div class="total">
-		共 <span>$!order.orderPackages.size()</span>件产品 合计￥<span>$!order.payMoney</span>元（含运费 <span>0.00</span>元 ）
-        </div>
-     <p><a href="#" class="paying">立即付款</a></p>
-	#end
-	#end
     </section>
     #end
 </div>

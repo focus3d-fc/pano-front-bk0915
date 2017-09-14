@@ -64,7 +64,6 @@ import com.focus3d.pano.order.service.PanoOrderService;
 import com.focus3d.pano.order.service.PanoOrderTransService;
 import com.focus3d.pano.pay.lianlian.utils.YinTongUtil;
 import com.focus3d.pano.project.service.PanoProjectHousePackageService;
-import com.focus3d.pano.shopcart.service.PanoOrderShopCartDetailService;
 import com.focus3d.pano.shopcart.service.PanoOrderShopCartService;
 import com.focus3d.pano.sms.service.SmsValidateService;
 import com.focus3d.pano.user.service.PanoMemUserService;
@@ -109,8 +108,6 @@ public class PanoOrderController extends BaseController {
 	private SmsValidateService smsValidateService;
 	@Autowired
 	private PanoOrderShopCartService<PanoOrderShopcartModel> shopCartService;
-	@Autowired
-	private PanoOrderShopCartDetailService<PanoOrderShopcartDetailModel> orderShopCartDetailService;
 	@Autowired
 	private PanoUserBankcardService<PanoUserBankcardModel> userBankcardService;
 	/**
@@ -629,7 +626,6 @@ public class PanoOrderController extends BaseController {
 		//分组显示
  		Map<Long, PanoOrderVo> projectGroupMap = new HashMap<Long, PanoOrderVo>();
 		for(PanoOrderModel order : orders){
-			Map<String, PanoOrderPackageVo> packageGropMap = new HashMap<String, PanoOrderPackageVo>();
 			List<PanoOrderPackageModel> packages = order.getOrderPackages();
 			for (PanoOrderPackageModel pk : packages) {
 				PanoProjectHousePackageModel housePackage = pk.getHousePackage();
@@ -650,24 +646,7 @@ public class PanoOrderController extends BaseController {
 					v.getOrders().add(order);
 					projectGroupMap.put(projectSn, v);
 				}
-				//按户型分组
-				PanoProjectHouseModel house = housePackage.getHouse();
-				PanoProjectStyleModel style = housePackage.getStyle();
-				Long houseSn = house.getSn();
-				Long styleSn = style.getSn();
-				String key = houseSn + "_" + styleSn;
-				if(packageGropMap.containsKey(key)){
-					packageGropMap.get(key).getOrderPackages().add(pk);
-					packageGropMap.get(key).setStyle(style);
-				} else {
-					PanoOrderPackageVo v = new PanoOrderPackageVo();
-					v.setHouse(house);
-					v.setStyle(style);
-					v.getOrderPackages().add(pk);
-					packageGropMap.put(key, v);
-				}
 			}
-			order.setPackageGropMap(packageGropMap);
 		}
 		map.put("orderGroupMap", projectGroupMap);
 		map.put("status", StringUtils.isEmpty(statusParam) ? "0" : statusParam);
